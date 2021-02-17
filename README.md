@@ -6,7 +6,7 @@ This project is under consideration.
 
 ## Motivation
 
-To learn how to make a NuGet package.
+To rediscover my childhood.
 
 ## License
 
