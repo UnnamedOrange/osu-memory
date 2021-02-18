@@ -25,6 +25,8 @@ namespace osu_memory
 	/// <summary>
 	/// Read memory from a process.
 	/// Select process by id first, and then you can read the memory.
+	/// Some methods are inspired by:
+	/// https://github.com/OsuSync/OsuRTDataProvider/blob/master/Memory/SigScan.cs
 	/// </summary>
 	class memory_reader
 	{

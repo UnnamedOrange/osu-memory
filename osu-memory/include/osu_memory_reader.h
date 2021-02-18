@@ -28,7 +28,7 @@ namespace osu_memory
 		/// <summary>
 		/// Call this function before any memory reading.
 		/// </summary>
-		/// <returns>Whether you should read memory after calling this function. Note that you may still fail if this function returns true.</returns>
+		/// <returns>Whether osu is selected again. Returning true means you should re-initialize something. Note that you may still fail if this function returns true.</returns>
 		bool update_select_osu();
 	};
 }
