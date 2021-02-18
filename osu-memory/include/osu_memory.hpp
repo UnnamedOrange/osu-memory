@@ -7,3 +7,5 @@
 
 #include "memory_reader.h"
 #include "osu_memory_reader.h"
+#include "osu_memory_module_base.hpp"
+#include "osu_memory_module_mode.hpp"

@@ -25,6 +25,8 @@
   <ItemGroup>
     <ClInclude Include="include\memory_reader.h" />
     <ClInclude Include="include\osu_memory.hpp" />
+    <ClInclude Include="include\osu_memory_module_base.hpp" />
+    <ClInclude Include="include\osu_memory_module_mode.hpp" />
     <ClInclude Include="include\osu_memory_reader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

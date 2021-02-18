@@ -96,8 +96,24 @@ namespace osu_memory
 			requires std::is_trivial_v<T>
 		{
 			T ret;
-			size_t read;
+			SIZE_T read;
 			if (!ReadProcessMemory(hProcess, p, &ret, sizeof(ret), &read) || read != sizeof(ret))
+				return std::nullopt;
+			return ret;
+		}
+		/// <summary>
+		/// Read memory from process.
+		/// Note that the function may fail because of the status of the process.
+		/// <remarks>See try_detach.</remarks>
+		/// </summary>
+		/// <param name="p">The remote address.</param>
+		/// <param name="size">The size you want to read.</param>
+		/// <returns>An optional std::vector(BYTE) object. If the function fails, it is nullopt.</returns>
+		std::optional<std::vector<BYTE>> read_memory(LPCVOID p, size_t size)
+		{
+			std::vector<BYTE> ret(size);
+			SIZE_T read;
+			if (!ReadProcessMemory(hProcess, p, ret.data(), size, &read) || read != size)
 				return std::nullopt;
 			return ret;
 		}
@@ -117,5 +133,43 @@ namespace osu_memory
 		/// </summary>
 		/// <returns>An optional dumped_memory_t object. If the function fails at any place, it is nullopt.</returns>
 		std::optional<dumped_memory_t> dump_memory() const;
+
+	public:
+		/// <summary>
+		/// Find matched binary from dumped memory.
+		/// </summary>
+		/// <param name="bin">Binary sequence.</param>
+		/// <param name="reserved">Reserved.</param>
+		/// <returns>A list of head addresses of matched binaries.</returns>
+		auto find(const std::vector<BYTE> bin, const std::optional<std::string>& reserved = std::nullopt)
+		{
+			UNREFERENCED_PARAMETER(reserved);
+
+			std::vector<PVOID> ret;
+			auto dumped_opt = dump_memory();
+			if (!dumped_opt || !dumped_opt.value().size())
+				return ret;
+
+			const auto& dump = dumped_opt.value();
+			for (const auto& region : dump)
+			{
+				for (size_t i = 0; i + bin.size() - 1 < region.data.size(); i++)
+				{
+					bool bOk = true;
+					for (size_t j = 0; j < bin.size(); j++)
+					{
+						if (region.data[i + j] != bin[j])
+						{
+							bOk = false;
+							break;
+						}
+					}
+					if (bOk)
+						ret.push_back(reinterpret_cast<PVOID>(reinterpret_cast<size_t>(region.base_address) + i));
+				}
+			}
+
+			return ret;
+		}
 	};
 }
