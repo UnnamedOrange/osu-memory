@@ -6,3 +6,4 @@
 #pragma once
 
 #include "memory_reader.h"
+#include "osu_memory_reader.h"

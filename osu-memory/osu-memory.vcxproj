@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\memory_reader.cpp" />
+    <ClCompile Include="src\osu_memory_reader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\memory_reader.h" />
     <ClInclude Include="include\osu_memory.hpp" />
+    <ClInclude Include="include\osu_memory_reader.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
