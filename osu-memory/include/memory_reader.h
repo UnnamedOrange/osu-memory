@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <vector>
 #include <string>
 #include <stdexcept>
 #include <thread>
@@ -84,7 +85,7 @@ namespace osu_memory
 		/// <summary>
 		/// Read memory from process. The type should be trivial.
 		/// Note that the function may fail because of the status of the process.
-		/// <remarks>See try_detach</remarks>
+		/// <remarks>See try_detach.</remarks>
 		/// </summary>
 		/// <param name="p">The remote address.</param>
 		/// <returns>An optional object. If the function fails, it is nullopt.</returns>
@@ -98,5 +99,21 @@ namespace osu_memory
 				return std::nullopt;
 			return ret;
 		}
+
+	public:
+		struct memory_region
+		{
+			PVOID base_address;
+			SIZE_T size;
+			std::vector<BYTE> data;
+		};
+		using dumped_memory_t = std::vector<memory_region>;
+		/// <summary>
+		/// Dump all ERW and commited memory region.
+		/// Note that the function may fail because of the status of the process.
+		/// <remarks>See try_detach.</remarks>
+		/// </summary>
+		/// <returns>An optional dumped_memory_t object. If the function fails at any place, it is nullopt.</returns>
+		std::optional<dumped_memory_t> dump_memory() const;
 	};
 }

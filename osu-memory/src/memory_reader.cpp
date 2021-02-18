@@ -58,3 +58,40 @@ bool osu_memory::memory_reader::detach()
 
 	return true;
 }
+
+std::optional<osu_memory::memory_reader::dumped_memory_t> osu_memory::memory_reader::dump_memory() const
+{
+	if (empty())
+		return std::nullopt;
+
+	PVOID min_address;
+	PVOID max_address;
+	{
+		SYSTEM_INFO sys_info;
+		GetSystemInfo(&sys_info);
+		min_address = sys_info.lpMinimumApplicationAddress;
+		max_address = sys_info.lpMaximumApplicationAddress;
+	}
+
+	std::vector<memory_region> regions;
+	PVOID crt_address = min_address;
+	while (crt_address < max_address)
+	{
+		MEMORY_BASIC_INFORMATION mem_info;
+		if (!VirtualQueryEx(hProcess, crt_address, &mem_info, sizeof(mem_info)))
+			return std::nullopt;
+
+		if ((mem_info.Protect & PAGE_EXECUTE_READWRITE) && mem_info.State == MEM_COMMIT)
+			regions.push_back({ mem_info.BaseAddress, mem_info.RegionSize });
+		crt_address = reinterpret_cast<PVOID>(reinterpret_cast<SIZE_T>(crt_address) + mem_info.RegionSize);
+	}
+
+	for (auto& r : regions)
+	{
+		r.data.resize(r.size);
+		SIZE_T read;
+		if (!ReadProcessMemory(hProcess, r.base_address, r.data.data(), r.size, &read) || read != r.size)
+			return std::nullopt;
+	}
+	return regions;
+}
