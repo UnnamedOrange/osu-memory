@@ -40,3 +40,11 @@ bool osu_memory_reader::select_osu()
 	CloseHandle(hProcessSnap);
 	return ret;
 }
+
+bool osu_memory::osu_memory_reader::update_select_osu()
+{
+	try_detach();
+	if (empty())
+		return select_osu();
+	return !empty();
+}

@@ -14,9 +14,21 @@
 
 namespace osu_memory
 {
-	class osu_memory_reader : virtual public memory_reader
+	class osu_memory_reader : public memory_reader
 	{
-	public:
+	private:
+		using memory_reader::select_process;
+		/// <summary>
+		/// Select osu! process. Assume that there's only one process named "osu!.exe".
+		/// </summary>
+		/// <returns>Whether it succeeded.</returns>
 		bool select_osu();
+
+	public:
+		/// <summary>
+		/// Call this function before any memory reading.
+		/// </summary>
+		/// <returns>Whether you should read memory after calling this function. Note that you may still fail if this function returns true.</returns>
+		bool update_select_osu();
 	};
 }
