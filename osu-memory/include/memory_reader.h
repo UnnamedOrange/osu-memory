@@ -6,6 +6,8 @@
 #include <string>
 #include <stdexcept>
 #include <thread>
+#include <optional>
+#include <concepts>
 
 #include <Windows.h>
 #undef min
@@ -13,6 +15,12 @@
 
 namespace osu_memory
 {
+	class open_process_fail : public std::runtime_error
+	{
+	public:
+		using std::runtime_error::runtime_error;
+	};
+
 	/// <summary>
 	/// Read memory from a process.
 	/// Select process by id first, and then you can read the memory.
@@ -63,7 +71,7 @@ namespace osu_memory
 		/// Select a process by its PID to read memory.
 		/// If you have already selected a process, the previous one will be abandoned.
 		/// If it fails to open the process (PID is invalid, or access denied, etc.),
-		/// an std::runtime_error will be thrown.
+		/// an open_process_fail will be thrown.
 		/// </summary>
 		void select_process(DWORD dwProcessId);
 		/// <summary>
@@ -71,5 +79,24 @@ namespace osu_memory
 		/// </summary>
 		/// <returns>Whether the detach is done. Equals to !empty().</returns>
 		bool detach();
+
+	public:
+		/// <summary>
+		/// Read memory from process. The type should be trivial.
+		/// Note that the function may fail because of the status of the process.
+		/// <remarks>See try_detach</remarks>
+		/// </summary>
+		/// <param name="p">The remote address.</param>
+		/// <returns>An optional object. If the function fails, it is nullopt.</returns>
+		template <typename T>
+		std::optional<T> read_memory(LPCVOID p)
+			requires std::is_trivial_v<T>
+		{
+			T ret;
+			size_t read;
+			if (!ReadProcessMemory(hProcess, p, &ret, sizeof(ret), &read) || read != sizeof(ret))
+				return std::nullopt;
+			return ret;
+		}
 	};
 }

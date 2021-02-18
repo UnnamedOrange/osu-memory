@@ -41,7 +41,7 @@ void osu_memory::memory_reader::select_process(DWORD dwProcessId)
 		{
 			if (hProcess_temp)
 				CloseHandle(hProcess_temp);
-			throw std::runtime_error("Fail to OpenProcess. The error code is " + std::to_string(dwError) + ".");
+			throw open_process_fail("Fail to OpenProcess. The error code is " + std::to_string(dwError) + ".");
 		}
 		hProcess = hProcess_temp;
 		ResetEvent(hEvent_exit);
