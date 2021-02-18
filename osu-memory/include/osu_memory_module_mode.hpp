@@ -26,6 +26,10 @@ namespace osu_memory
 			}
 			return false;
 		}
+		virtual void on_reset() override
+		{
+			base = nullptr;
+		}
 
 	public:
 		std::optional<int> get_mode()
@@ -35,10 +39,10 @@ namespace osu_memory
 			auto addr = read_memory<int32_t>((PVOID)((size_t)base + binary.size()));
 			if (!addr)
 			{
-				reset_is_init();
+				reset();
 				return std::nullopt;
 			}
-			
+
 			return read_memory<int32_t>(reinterpret_cast<PVOID>(addr.value()));
 		}
 	};

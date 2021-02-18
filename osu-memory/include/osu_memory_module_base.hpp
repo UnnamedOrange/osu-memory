@@ -36,10 +36,16 @@ namespace osu_memory
 		/// <returns>If initializing succeesfully, you should return true. Otherwise, false.</returns>
 		virtual bool on_init() = 0;
 		/// <summary>
-		/// Set is_inited to false manually.
+		/// Reset any thing in the decendent class.
+		/// This function is called when the process exits.
 		/// </summary>
-		void reset_is_init()
+		virtual void on_reset() = 0;
+		/// <summary>
+		/// Reset manually.
+		/// </summary>
+		void reset()
 		{
+			on_reset();
 			is_inited = false;
 		}
 
@@ -52,14 +58,17 @@ namespace osu_memory
 		{
 			if (update_select_osu())
 			{
-				// TODO: Only one class receives this.
+				// Note: Only one class receives this. Since introducing on_reset, this doesn't count much.
 				if (init())
 					return true;
 				else
 					return false;
 			}
 			if (empty())
+			{
+				on_reset();
 				return false;
+			}
 			else if (is_inited)
 				return true;
 			else
