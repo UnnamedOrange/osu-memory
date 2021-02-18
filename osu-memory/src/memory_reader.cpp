@@ -3,7 +3,9 @@
 
 #include "memory_reader.h"
 
-void osu_memory::memory_reader::exit_thread_proc()
+using namespace osu_memory;
+
+void memory_reader::exit_thread_proc()
 {
 	HANDLE waits[]{ hEvent_exit, hProcess };
 	WaitForMultipleObjects(static_cast<DWORD>(std::size(waits)),
@@ -13,11 +15,11 @@ void osu_memory::memory_reader::exit_thread_proc()
 	hProcess = nullptr;
 }
 
-bool osu_memory::memory_reader::empty() const
+bool memory_reader::empty() const
 {
 	return !exit_thread.joinable();
 }
-bool osu_memory::memory_reader::try_detach()
+bool memory_reader::try_detach()
 {
 	if (empty())
 		return false;
@@ -29,7 +31,7 @@ bool osu_memory::memory_reader::try_detach()
 	}
 	return ret;
 }
-void osu_memory::memory_reader::select_process(DWORD dwProcessId)
+void memory_reader::select_process(DWORD dwProcessId)
 {
 	detach();
 
@@ -48,7 +50,7 @@ void osu_memory::memory_reader::select_process(DWORD dwProcessId)
 	}
 	exit_thread = std::move(std::thread(&memory_reader::exit_thread_proc, this));
 }
-bool osu_memory::memory_reader::detach()
+bool memory_reader::detach()
 {
 	if (empty())
 		return false;
@@ -59,7 +61,7 @@ bool osu_memory::memory_reader::detach()
 	return true;
 }
 
-std::optional<osu_memory::memory_reader::dumped_memory_t> osu_memory::memory_reader::dump_memory() const
+std::optional<memory_reader::dumped_memory_t> memory_reader::dump_memory() const
 {
 	if (empty())
 		return std::nullopt;
