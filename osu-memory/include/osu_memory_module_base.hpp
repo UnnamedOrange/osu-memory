@@ -52,6 +52,7 @@ namespace osu_memory
 		{
 			if (update_select_osu())
 			{
+				// TODO: Only one class receives this.
 				if (init())
 					return true;
 				else
