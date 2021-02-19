@@ -12,7 +12,8 @@ namespace osu_memory
 	class osu_memory_module_version : public osu_memory_module_base
 	{
 	private:
-		inline static const std::vector<BYTE> bin{ 0x4C, 0x00, 0x61, 0x00, 0x73, 0x00, 0x74, 0x00, 0x56, 0x00, 0x65, 0x00, 0x72, 0x00, 0x73, 0x00, 0x69, 0x00, 0x6F, 0x00, 0x6E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE4, 0x24, 0x7E, 0x6D };
+		inline static const std::vector<BYTE> bin{ 0x0B, 0x00, 0x00, 0x00, 0x4C, 0x00, 0x61, 0x00, 0x73, 0x00, 0x74, 0x00, 0x56, 0x00, 0x65, 0x00, 0x72, 0x00, 0x73, 0x00, 0x69, 0x00, 0x6F, 0x00, 0x6E, 0x00 };
+		static constexpr size_t offset = 0x24;
 		PVOID base{};
 
 	private:
@@ -37,14 +38,14 @@ namespace osu_memory
 			if (!before_read())
 				return std::nullopt;
 
-			auto length = read_memory<int32_t>(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + bin.size()));
+			auto length = read_memory<int32_t>(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset));
 			if (!length)
 			{
 				reset();
 				return std::nullopt;
 			}
 
-			auto content = read_memory(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + bin.size() + sizeof(int32_t)), *length * sizeof(char16_t));
+			auto content = read_memory(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset + sizeof(int32_t)), *length * sizeof(char16_t));
 			if (!content)
 			{
 				reset();
