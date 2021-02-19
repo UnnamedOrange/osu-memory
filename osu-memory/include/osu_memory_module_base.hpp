@@ -10,6 +10,11 @@ namespace osu_memory
 	class osu_memory_module_base : public virtual osu_memory_reader
 	{
 	private:
+		using osu_memory_reader::detach;
+		using osu_memory_reader::try_detach;
+		using osu_memory_reader::update_select_osu;
+
+	private:
 		bool is_inited{};
 
 	private:
