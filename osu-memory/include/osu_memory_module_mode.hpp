@@ -9,7 +9,7 @@
 
 namespace osu_memory
 {
-	class osu_memory_module_mode : public virtual osu_memory_module_base
+	class osu_memory_module_mode : public osu_memory_module_base
 	{
 	private:
 		inline static const std::vector<BYTE> binary{ 0xEC, 0x57, 0x56, 0x53, 0x3B, 0x0D };
