@@ -44,6 +44,12 @@ namespace osu_memory
 			if (!before_read())
 				return std::nullopt;
 
+			if (read_memory(base, bin.size()) != bin)
+			{
+				reset();
+				return std::nullopt;
+			}
+
 			std::vector<int> ret;
 			if (key == 4)
 			{

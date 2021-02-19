@@ -43,6 +43,12 @@ namespace osu_memory
 			if (!before_read())
 				return std::nullopt;
 
+			if (read_memory(base, bin.size()) != bin)
+			{
+				reset();
+				return std::nullopt;
+			}
+
 			auto length = read_memory<uint32_t>(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset));
 			if (!length || *length > 32)
 			{
