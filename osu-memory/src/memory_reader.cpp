@@ -60,6 +60,17 @@ bool memory_reader::detach()
 
 	return true;
 }
+std::chrono::microseconds osu_memory::memory_reader::get_process_time() const
+{
+	if (!hProcess)
+		return std::chrono::microseconds();
+	uint64_t create_time;
+	FILETIME __unused[1];
+	GetProcessTimes(hProcess, (LPFILETIME)&create_time, __unused, __unused, __unused);
+	uint64_t system_time;
+	GetSystemTimeAsFileTime((LPFILETIME)&system_time);
+	return std::chrono::microseconds((system_time - create_time) / 10);
+}
 
 std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE> bin, DWORD protect)
 {

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <chrono>
 #include <optional>
 
 #include "osu_memory_module_base.hpp"
@@ -19,6 +20,10 @@ namespace osu_memory
 	private:
 		virtual bool on_init() override
 		{
+			using namespace std::literals;
+			if (get_process_time() < 5s)
+				return false;
+
 			auto addr = find_one(bin, PAGE_READWRITE);
 			if (addr)
 			{

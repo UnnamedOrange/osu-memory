@@ -3,11 +3,13 @@
 
 #pragma once
 
+#include <cinttypes>
 #include <vector>
 #include <string>
 #include <array>
 #include <stdexcept>
 #include <thread>
+#include <chrono>
 #include <optional>
 #include <concepts>
 
@@ -77,6 +79,10 @@ namespace osu_memory
 		/// </summary>
 		/// <returns>Whether the detach is done. Equals to !empty().</returns>
 		bool detach();
+		/// <summary>
+		/// Get the time elapsed since the creation of the process.
+		/// </summary>
+		std::chrono::microseconds get_process_time() const;
 
 	public:
 		/// <summary>
