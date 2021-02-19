@@ -122,7 +122,7 @@ std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE>
 			SIZE_T to_read = std::min(cache_size, reinterpret_cast<size_t>(r.base_address) + r.size - crt);
 			if (!ReadProcessMemory(hProcess, reinterpret_cast<PVOID>(crt), cache.data(),
 				to_read, &read) || read != to_read)
-				return std::nullopt;
+				break;
 
 			for (size_t i = 0; i < read; i++)
 			{
