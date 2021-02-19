@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <string>
+#include <array>
 #include <stdexcept>
 #include <thread>
 #include <optional>
@@ -22,12 +23,6 @@ namespace osu_memory
 		using std::runtime_error::runtime_error;
 	};
 
-	/// <summary>
-	/// Read memory from a process.
-	/// Select process by id first, and then you can read the memory.
-	/// Some methods are inspired by:
-	/// https://github.com/OsuSync/OsuRTDataProvider/blob/master/Memory/SigScan.cs
-	/// </summary>
 	class memory_reader
 	{
 	private:
@@ -118,7 +113,7 @@ namespace osu_memory
 			return ret;
 		}
 
-	public:
+	private:
 		struct memory_region
 		{
 			PVOID base_address;
@@ -126,50 +121,13 @@ namespace osu_memory
 			std::vector<BYTE> data;
 		};
 		using dumped_memory_t = std::vector<memory_region>;
-		/// <summary>
-		/// Dump all ERW and commited memory region.
-		/// Note that the function may fail because of the status of the process.
-		/// <remarks>See try_detach.</remarks>
-		/// </summary>
-		/// <returns>An optional dumped_memory_t object. If the function fails at any place, it is nullopt.</returns>
-		std::optional<dumped_memory_t> dump_memory() const;
-
 	public:
 		/// <summary>
-		/// Find matched binary from dumped memory.
+		/// Find matched binary from memory.
 		/// </summary>
 		/// <param name="bin">Binary sequence.</param>
-		/// <param name="reserved">Reserved.</param>
-		/// <returns>A list of head addresses of matched binaries.</returns>
-		auto find(const std::vector<BYTE> bin, const std::optional<std::string>& reserved = std::nullopt)
-		{
-			UNREFERENCED_PARAMETER(reserved);
-
-			std::vector<PVOID> ret;
-			auto dumped_opt = dump_memory();
-			if (!dumped_opt || !dumped_opt.value().size())
-				return ret;
-
-			const auto& dump = dumped_opt.value();
-			for (const auto& region : dump)
-			{
-				for (size_t i = 0; i + bin.size() - 1 < region.data.size(); i++)
-				{
-					bool bOk = true;
-					for (size_t j = 0; j < bin.size(); j++)
-					{
-						if (region.data[i + j] != bin[j])
-						{
-							bOk = false;
-							break;
-						}
-					}
-					if (bOk)
-						ret.push_back(reinterpret_cast<PVOID>(reinterpret_cast<size_t>(region.base_address) + i));
-				}
-			}
-
-			return ret;
-		}
+		/// <param name="protect">Protect property of the page.</param>
+		/// <returns>A head address of matched binary. If there are more than one matched, only the first one will be returned.</returns>
+		std::optional<PVOID> find_one(const std::vector<BYTE> bin, DWORD protect = PAGE_EXECUTE_READWRITE);
 	};
 }

@@ -61,7 +61,7 @@ bool memory_reader::detach()
 	return true;
 }
 
-std::optional<memory_reader::dumped_memory_t> memory_reader::dump_memory() const
+std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE> bin, DWORD protect)
 {
 	if (empty())
 		return std::nullopt;
@@ -75,6 +75,7 @@ std::optional<memory_reader::dumped_memory_t> memory_reader::dump_memory() const
 		max_address = sys_info.lpMaximumApplicationAddress;
 	}
 
+	// Do not load the whole memory.
 	std::vector<memory_region> regions;
 	PVOID crt_address = min_address;
 	while (crt_address < max_address)
@@ -83,17 +84,56 @@ std::optional<memory_reader::dumped_memory_t> memory_reader::dump_memory() const
 		if (!VirtualQueryEx(hProcess, crt_address, &mem_info, sizeof(mem_info)))
 			return std::nullopt;
 
-		if ((mem_info.Protect & PAGE_EXECUTE_READWRITE) && mem_info.State == MEM_COMMIT)
+		if ((mem_info.Protect & protect) && mem_info.State == MEM_COMMIT)
 			regions.push_back({ mem_info.BaseAddress, mem_info.RegionSize });
 		crt_address = reinterpret_cast<PVOID>(reinterpret_cast<SIZE_T>(crt_address) + mem_info.RegionSize);
 	}
 
-	for (auto& r : regions)
+	std::vector<size_t> f;
+	// KMP.
 	{
-		r.data.resize(r.size);
-		SIZE_T read;
-		if (!ReadProcessMemory(hProcess, r.base_address, r.data.data(), r.size, &read) || read != r.size)
-			return std::nullopt;
+		f.resize(bin.size() + 1);
+		f[0] = f[1] = 0;
+		size_t matched = 0;
+		for (size_t i = 1; i < bin.size(); i++)
+		{
+			while (matched && bin[matched] != bin[i])
+				matched = f[matched];
+			if (bin[matched] == bin[i])
+				matched++;
+
+			if (i + 1 < bin.size() && bin[i + 1] == bin[matched])
+				f[i + 1] = f[matched];
+			else
+				f[i + 1] = matched;
+		}
 	}
-	return regions;
+
+	for (const auto& r : regions)
+	{
+		constexpr static SIZE_T cache_size = 8192;
+		std::array<BYTE, cache_size> cache;
+		size_t matched{};
+		for (size_t crt = reinterpret_cast<size_t>(r.base_address);
+			crt - reinterpret_cast<size_t>(r.base_address) < r.size;
+			crt += cache_size)
+		{
+			SIZE_T read;
+			SIZE_T to_read = std::min(cache_size, reinterpret_cast<size_t>(r.base_address) + r.size - crt);
+			if (!ReadProcessMemory(hProcess, reinterpret_cast<PVOID>(crt), cache.data(),
+				to_read, &read) || read != to_read)
+				return std::nullopt;
+
+			for (size_t i = 0; i < read; i++)
+			{
+				while (matched == bin.size() || (matched && cache[i] != bin[matched]))
+					matched = f[matched];
+				if (cache[i] == bin[matched])
+					matched++;
+				if (matched == bin.size())
+					return reinterpret_cast<PVOID>(crt + i - bin.size() + 1);
+			}
+		}
+	}
+	return std::nullopt;
 }

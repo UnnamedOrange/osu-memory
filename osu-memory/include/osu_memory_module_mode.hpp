@@ -18,10 +18,10 @@ namespace osu_memory
 	private:
 		virtual bool on_init() override
 		{
-			auto addressed = find(binary);
-			if (addressed.size() == 1)
+			auto addressed = find_one(binary);
+			if (addressed)
 			{
-				base = addressed[0];
+				base = *addressed;
 				return true;
 			}
 			return false;
