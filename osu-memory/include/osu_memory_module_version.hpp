@@ -38,14 +38,14 @@ namespace osu_memory
 			if (!before_read())
 				return std::nullopt;
 
-			auto length = read_memory<int32_t>(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset));
-			if (!length)
+			auto length = read_memory<uint32_t>(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset));
+			if (!length || *length > 32)
 			{
 				reset();
 				return std::nullopt;
 			}
 
-			auto content = read_memory(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset + sizeof(int32_t)), *length * sizeof(char16_t));
+			auto content = read_memory(reinterpret_cast<LPCVOID>(reinterpret_cast<size_t>(base) + offset + sizeof(uint32_t)), *length * sizeof(char16_t));
 			if (!content)
 			{
 				reset();

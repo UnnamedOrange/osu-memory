@@ -27,6 +27,7 @@
     <ClInclude Include="include\osu_memory.hpp" />
     <ClInclude Include="include\osu_memory_collection.hpp" />
     <ClInclude Include="include\osu_memory_module_base.hpp" />
+    <ClInclude Include="include\osu_memory_module_mania_key.hpp" />
     <ClInclude Include="include\osu_memory_module_mode.hpp" />
     <ClInclude Include="include\osu_memory_module_version.hpp" />
     <ClInclude Include="include\osu_memory_reader.h" />

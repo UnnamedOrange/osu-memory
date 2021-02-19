@@ -71,7 +71,7 @@ namespace osu_memory
 			}
 			if (empty())
 			{
-				on_reset();
+				reset();
 				return false;
 			}
 			else if (is_inited)

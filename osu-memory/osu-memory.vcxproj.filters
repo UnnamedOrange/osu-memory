@@ -44,5 +44,8 @@
     <ClInclude Include="include\osu_memory_module_version.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory_module_mania_key.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
