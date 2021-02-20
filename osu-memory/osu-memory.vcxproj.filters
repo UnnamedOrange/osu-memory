@@ -35,9 +35,6 @@
     <ClInclude Include="include\osu_memory_module_base.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="include\osu_memory_module_mode.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\osu_memory_collection.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -45,6 +42,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\osu_memory_module_mania_key.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory_module_hit.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
