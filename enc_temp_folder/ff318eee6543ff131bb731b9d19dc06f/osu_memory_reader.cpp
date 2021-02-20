@@ -41,7 +41,7 @@ bool osu_memory_reader::select_osu()
 	return ret;
 }
 
-bool osu_memory_reader::update_select_osu()
+bool osu_memory::osu_memory_reader::update_select_osu()
 {
 	try_detach();
 	if (empty())

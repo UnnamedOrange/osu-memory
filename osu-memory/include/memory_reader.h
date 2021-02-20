@@ -124,9 +124,16 @@ namespace osu_memory
 		{
 			PVOID base_address;
 			SIZE_T size;
-			std::vector<BYTE> data;
+			std::vector<BYTE> reserved; // size() is always 0.
 		};
 		using dumped_memory_t = std::vector<memory_region>;
+		/// <summary>
+		/// Get all memory regions.
+		/// <remarks>See memory_region.</remarks>
+		/// </summary>
+		/// <param name="protect">Protect property of the pages.</param>
+		/// <returns>An optional dumped_memory_t.</returns>
+		std::optional<dumped_memory_t> get_memory_regions(DWORD protect) const;
 	public:
 		/// <summary>
 		/// Find matched binary from memory.
@@ -135,5 +142,12 @@ namespace osu_memory
 		/// <param name="protect">Protect property of the page.</param>
 		/// <returns>A head address of matched binary. If there are more than one matched, only the first one will be returned.</returns>
 		std::optional<PVOID> find_one(const std::vector<BYTE> bin, DWORD protect = PAGE_EXECUTE_READWRITE);
+		/// <summary>
+		/// Find matched binary from memory. Protect property of the pages is always PAEG_EXECUTE_READWRITE.
+		/// </summary>
+		/// <param name="bin">Binary sequence.</param>
+		/// <param name="mask">Mask. '?' means one byte can be any.</param>
+		/// <returns></returns>
+		std::optional<PVOID> find_one(const std::vector<BYTE> bin, std::string_view mask);
 	};
 }

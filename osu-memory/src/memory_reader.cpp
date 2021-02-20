@@ -60,7 +60,7 @@ bool memory_reader::detach()
 
 	return true;
 }
-std::chrono::microseconds osu_memory::memory_reader::get_process_time() const
+std::chrono::microseconds memory_reader::get_process_time() const
 {
 	if (!hProcess)
 		return std::chrono::microseconds();
@@ -72,11 +72,8 @@ std::chrono::microseconds osu_memory::memory_reader::get_process_time() const
 	return std::chrono::microseconds((system_time - create_time) / 10);
 }
 
-std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE> bin, DWORD protect)
+std::optional<memory_reader::dumped_memory_t> memory_reader::get_memory_regions(DWORD protect) const
 {
-	if (empty())
-		return std::nullopt;
-
 	PVOID min_address;
 	PVOID max_address;
 	{
@@ -87,7 +84,7 @@ std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE>
 	}
 
 	// Do not load the whole memory.
-	std::vector<memory_region> regions;
+	std::vector<memory_region> ret;
 	PVOID crt_address = min_address;
 	while (crt_address < max_address)
 	{
@@ -96,9 +93,20 @@ std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE>
 			return std::nullopt;
 
 		if ((mem_info.Protect & protect) && mem_info.State == MEM_COMMIT)
-			regions.push_back({ mem_info.BaseAddress, mem_info.RegionSize });
+			ret.push_back({ mem_info.BaseAddress, mem_info.RegionSize });
 		crt_address = reinterpret_cast<PVOID>(reinterpret_cast<SIZE_T>(crt_address) + mem_info.RegionSize);
 	}
+	return ret;
+}
+
+std::optional<PVOID> memory_reader::find_one(const std::vector<BYTE> bin, DWORD protect)
+{
+	if (empty())
+		return std::nullopt;
+
+	auto regions = get_memory_regions(protect);
+	if (!regions)
+		return std::nullopt;
 
 	std::vector<size_t> f;
 	// KMP.
@@ -120,7 +128,7 @@ std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE>
 		}
 	}
 
-	for (const auto& r : regions)
+	for (const auto& r : *regions)
 	{
 		constexpr static SIZE_T cache_size = 8192;
 		std::array<BYTE, cache_size> cache;
@@ -144,6 +152,41 @@ std::optional<PVOID> osu_memory::memory_reader::find_one(const std::vector<BYTE>
 				if (matched == bin.size())
 					return reinterpret_cast<PVOID>(crt + i - bin.size() + 1);
 			}
+		}
+	}
+	return std::nullopt;
+}
+std::optional<PVOID> memory_reader::find_one(const std::vector<BYTE> bin, std::string_view mask)
+{
+	if (bin.size() != mask.length())
+		throw std::invalid_argument("Sizes of bin and mask must be the same.");
+
+	if (empty())
+		return std::nullopt;
+
+	auto regions = get_memory_regions(PAGE_EXECUTE_READWRITE);
+	if (!regions)
+		return std::nullopt;
+
+	for (const auto& r : *regions)
+	{
+		auto region_data = read_memory(r.base_address, r.size);
+		if (!region_data)
+			continue;
+
+		for (size_t i = 0; i + bin.size() - 1 < (*region_data).size(); i++)
+		{
+			bool ok = true;
+			for (size_t j = 0; j < bin.size(); j++)
+			{
+				if (!(mask[j] == '?' || (*region_data)[i + j] == bin[j]))
+				{
+					ok = false;
+					break;
+				}
+			}
+			if (ok)
+				return reinterpret_cast<PVOID>(reinterpret_cast<size_t>(r.base_address) + i);
 		}
 	}
 	return std::nullopt;
