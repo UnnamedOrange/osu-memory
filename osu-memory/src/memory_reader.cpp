@@ -39,7 +39,9 @@ void memory_reader::select_process(DWORD dwProcessId)
 		HANDLE hProcess_temp = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwProcessId);
 		DWORD dwError = GetLastError();
 		// It is possible that the process has been terminated but OpenProcess succeeded.
-		if (!hProcess_temp || WaitForSingleObject(hProcess_temp, 1) == WAIT_OBJECT_0)
+		if (DWORD dwExitCode; !hProcess_temp ||
+			!GetExitCodeProcess(hProcess_temp, &dwExitCode) ||
+			dwExitCode != STILL_ACTIVE)
 		{
 			if (hProcess_temp)
 				CloseHandle(hProcess_temp);
