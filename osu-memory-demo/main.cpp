@@ -3,7 +3,7 @@
 #include <numeric>
 #include <array>
 
-#include <osu_memory.hpp>
+#include <osu_memory/osu_memory.hpp>
 
 int main(int argn, char** argv)
 {

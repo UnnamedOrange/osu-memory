@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package>
+    <metadata>
+        <id>osu-memory</id>
+        <title>osu-memory</title>
+        <authors>UnnamedOrange</authors>
+        <owners>UnnamedOrange</owners>
+        <license type="file">build/LICENSE</license>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <copyright>Copyright (c) 2021 UnnamedOrange</copyright>
+        <projectUrl>https://github.com/UnnamedOrange/osu-memory</projectUrl>
+        <version>0.0.1</version>
+        <description>
+Yet another memory reader for osu! in C++.
+        </description>
+        <tags>native, json</tags>
+    </metadata>
+
+    <files>
+        <file src="native/include/**/*.*" target="build/"/>
+        <file src="native/src/**/*.*" target="build/"/>
+        <file src="native/osu-memory.targets" target="build/"/>
+        <file src="README.md" target="build/"/>
+        <file src="LICENSE*" target="build/"/>
+    </files>
+</package>

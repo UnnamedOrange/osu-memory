@@ -19,18 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\memory_reader.cpp" />
-    <ClCompile Include="src\osu_memory_reader.cpp" />
+    <ClInclude Include="include\osu_memory\memory_reader.h" />
+    <ClInclude Include="include\osu_memory\osu_memory.hpp" />
+    <ClInclude Include="include\osu_memory\osu_memory_collection.hpp" />
+    <ClInclude Include="include\osu_memory\osu_memory_module_base.hpp" />
+    <ClInclude Include="include\osu_memory\osu_memory_module_hit.hpp" />
+    <ClInclude Include="include\osu_memory\osu_memory_module_mania_key.hpp" />
+    <ClInclude Include="include\osu_memory\osu_memory_module_version.hpp" />
+    <ClInclude Include="include\osu_memory\osu_memory_reader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\memory_reader.h" />
-    <ClInclude Include="include\osu_memory.hpp" />
-    <ClInclude Include="include\osu_memory_collection.hpp" />
-    <ClInclude Include="include\osu_memory_module_base.hpp" />
-    <ClInclude Include="include\osu_memory_module_hit.hpp" />
-    <ClInclude Include="include\osu_memory_module_mania_key.hpp" />
-    <ClInclude Include="include\osu_memory_module_version.hpp" />
-    <ClInclude Include="include\osu_memory_reader.h" />
+    <ClCompile Include="src\osu_memory\memory_reader.cpp" />
+    <ClCompile Include="src\osu_memory\osu_memory_reader.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -86,18 +86,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
     <PublicIncludeDirectories>$(ProjectDir)include;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
     <PublicIncludeDirectories>$(ProjectDir)include;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
     <PublicIncludeDirectories>$(ProjectDir)include;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
     <PublicIncludeDirectories>$(ProjectDir)include;$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -109,7 +113,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/osu_memory;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -128,7 +132,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/osu_memory;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -147,7 +151,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/osu_memory;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -166,7 +170,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include/osu_memory;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

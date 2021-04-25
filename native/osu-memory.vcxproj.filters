@@ -15,37 +15,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\memory_reader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="src\osu_memory_reader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ClInclude Include="include\osu_memory\memory_reader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory_collection.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory_module_base.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory_module_hit.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory_module_mania_key.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory_module_version.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\osu_memory_reader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\memory_reader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory_reader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory_module_base.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory_collection.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory_module_version.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory_module_mania_key.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\osu_memory_module_hit.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <ClCompile Include="src\osu_memory\memory_reader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osu_memory\osu_memory_reader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

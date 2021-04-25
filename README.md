@@ -1,6 +1,6 @@
 # osu-memory
 
-Yet another memory reader for osu! in C++。
+Yet another memory reader for osu! in C++.
 
 This project is under consideration.
 
