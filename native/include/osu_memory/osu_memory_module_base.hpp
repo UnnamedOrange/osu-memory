@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "osu_memory_reader.h"
+#include <osu_memory/osu_memory_reader.h>
 
 namespace osu_memory
 {

@@ -10,7 +10,7 @@
 #undef max
 #include <tlhelp32.h>
 
-#include "memory_reader.h"
+#include <osu_memory/memory_reader.h>
 
 namespace osu_memory
 {

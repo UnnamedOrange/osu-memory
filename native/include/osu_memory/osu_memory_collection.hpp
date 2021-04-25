@@ -3,10 +3,10 @@
 
 #pragma once
 
-#include "osu_memory_module_base.hpp"
-#include "osu_memory_module_version.hpp"
-#include "osu_memory_module_mania_key.hpp"
-#include "osu_memory_module_hit.hpp"
+#include <osu_memory/osu_memory_module_base.hpp>
+#include <osu_memory/osu_memory_module_version.hpp>
+#include <osu_memory/osu_memory_module_mania_key.hpp>
+#include <osu_memory/osu_memory_module_hit.hpp>
 
 namespace osu_memory
 {

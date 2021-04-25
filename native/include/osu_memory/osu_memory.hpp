@@ -5,9 +5,9 @@
 
 #pragma once
 
-#include "memory_reader.h"
-#include "osu_memory_reader.h"
-#include "osu_memory_module_base.hpp"
-#include "osu_memory_module_mania_key.hpp"
-#include "osu_memory_module_hit.hpp"
-#include "osu_memory_collection.hpp"
+#include <osu_memory/memory_reader.h>
+#include <osu_memory/osu_memory_reader.h>
+#include <osu_memory/osu_memory_module_base.hpp>
+#include <osu_memory/osu_memory_module_mania_key.hpp>
+#include <osu_memory/osu_memory_module_hit.hpp>
+#include <osu_memory/osu_memory_collection.hpp>

@@ -6,7 +6,7 @@
 #include <cinttypes>
 #include <optional>
 
-#include "osu_memory_module_base.hpp"
+#include <osu_memory/osu_memory_module_base.hpp>
 
 namespace osu_memory
 {
