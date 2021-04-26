@@ -1,0 +1,33 @@
+name: NuGet
+
+# Controls when the action will run.
+on:
+  release:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "publish"
+  publish:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup NuGet.exe for use with actions
+        uses: NuGet/setup-nuget@v1.0.5
+        with:
+          # NuGet version to install. Can be `latest`, `preview`, a concrete version like `5.3.1`, or a semver range specifier like `5.x`.
+          nuget-version: latest
+          # NuGet API Key to configure.
+          nuget-api-key: ${{secrets.NUGET_KEY}}
+          # Source to scope the NuGet API Key to.
+          nuget-api-key-source: # optional
+      - run: nuget pack osu-memory.nuspec -OutputDirectory .
+      - run: nuget push *.nupkg -Source "https://www.nuget.org"
