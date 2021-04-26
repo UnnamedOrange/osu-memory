@@ -5,7 +5,7 @@
       <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
-  <Target Name="AddWildCardItems" AfterTargets="BuildGenerateSources">
+  <Target Name="osu_memory_sources" AfterTargets="BuildGenerateSources">
     <ItemGroup>
       <ClCompile Include="$(MSBuildThisFileDirectory)src\osu_memory\*.*"/>
       <ClInclude Include="$(MSBuildThisFileDirectory)include\osu_memory\*.*"/>
@@ -13,8 +13,7 @@
   </Target>
   <PropertyGroup>
     <ComputeCompileInputsTargets>
-      AddWildCardItems
-      $(ComputeCompileInputsTargets)
+      osu_memory_sources;$(ComputeCompileInputsTargets)
     </ComputeCompileInputsTargets>
   </PropertyGroup>
 </Project>
