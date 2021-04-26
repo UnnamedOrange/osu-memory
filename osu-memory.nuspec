@@ -13,7 +13,7 @@
         <description>
 Yet another memory reader for osu! in C++.
         </description>
-        <tags>native, json</tags>
+        <tags>native, osu</tags>
     </metadata>
 
     <files>
