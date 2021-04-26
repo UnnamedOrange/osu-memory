@@ -9,7 +9,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <copyright>Copyright (c) 2021 UnnamedOrange</copyright>
         <projectUrl>https://github.com/UnnamedOrange/osu-memory</projectUrl>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
         <description>
 Yet another memory reader for osu! in C++.
         </description>
