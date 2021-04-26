@@ -27,5 +27,5 @@ jobs:
           nuget-api-key: ${{secrets.NUGET_KEY}}
           # Source to scope the NuGet API Key to.
           nuget-api-key-source: # optional
-      - run: nuget pack osu-memory.nuspec -OutputDirectory .
+      - run: nuget pack osu-memory.nuspec
       - run: nuget push *.nupkg -Source "https://www.nuget.org"
