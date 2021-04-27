@@ -35,5 +35,8 @@
     <ClCompile Include="src\osu_memory\imp_base.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\osu_memory\imp_hits.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -44,4 +44,42 @@ namespace osu_memory::implementation
 		binded_process.reset();
 		is_constructed = false;
 	}
+
+	void imp_base::worker()
+	{
+		while (true)
+		{
+			std::unique_lock lock(mutex_status);
+			cv_status.wait(lock, [this]
+				{
+					return status;
+				});
+			if (!~status)
+				break;
+
+			package = commited_func();
+
+			std::unique_lock lock_notify(mutex_finish);
+			if (~status)
+				status = 0;
+			cv_finish.notify_one();
+		}
+	}
+	bool imp_base::busy() const
+	{
+		return status;
+	}
+	const std::any imp_base::get_package() const
+	{
+		return package;
+	}
+
+	imp_base::~imp_base()
+	{
+		std::unique_lock lock(mutex_status);
+		status = -1;
+		lock.unlock();
+		cv_status.notify_one();
+		thread_worker.join();
+	}
 }

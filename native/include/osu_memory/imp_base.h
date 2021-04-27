@@ -122,39 +122,18 @@ namespace osu_memory::implementation
 
 	private:
 		std::any package;
-		int status{0}; // 0 for ready, 1 for work, -1 for exit.
+		int status{ 0 }; // 0 for ready, 1 for work, -1 for exit.
 		std::timed_mutex mutex_status;
 		std::condition_variable_any cv_status;
+		std::mutex mutex_finish;
+		std::condition_variable cv_finish;
 		std::function<std::any()> commited_func;
 		std::thread thread_worker;
 	private:
-		void worker()
-		{
-			while (true)
-			{
-				std::unique_lock lock(mutex_status);
-				cv_status.wait(lock, [this]
-					{
-						return status;
-					});
-				if (!~status)
-					break;
-
-				package = commited_func();
-				
-				if (~status)
-					status = 0;
-			}
-		}
+		void worker();
 	protected:
-		bool busy()
-		{
-			return status;
-		}
-		const std::any get_package() const
-		{
-			return package;
-		}
+		bool busy() const;
+		const std::any get_package() const;
 		template <typename func_t>
 		bool commit(func_t f, bool async, std::chrono::nanoseconds async_timeout)
 		{
@@ -167,13 +146,18 @@ namespace osu_memory::implementation
 			{
 				if (status)
 					return false;
-				std::unique_lock lock(mutex_status);
+				std::unique_lock lock_notify(mutex_status);
 				status = 1;
 				commited_func = [f]() -> std::any { return f(); };
-				lock.unlock();
+				lock_notify.unlock();
 				cv_status.notify_one();
 
-				if (lock.try_lock_for(async_timeout) && !status)
+				std::unique_lock lock_reveiver(mutex_finish);
+				cv_finish.wait_for(lock_reveiver, async_timeout, [this]
+					{
+						return !status;
+					});
+				if (!status)
 					return true;
 				else
 					return false;
@@ -181,16 +165,8 @@ namespace osu_memory::implementation
 		}
 
 	public:
-		imp_base() : thread_worker(&imp_base::worker, this)
-		{
-
-		}
-		virtual ~imp_base()
-		{
-			std::lock_guard _(mutex_status);
-			status = -1;
-			cv_status.notify_one();
-		}
+		imp_base() : thread_worker(&imp_base::worker, this) {}
+		virtual ~imp_base();
 		imp_base(const imp_base&) = delete;
 		imp_base(imp_base&&) noexcept = delete;
 		imp_base& operator=(const imp_base&) = delete;

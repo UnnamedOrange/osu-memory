@@ -21,50 +21,14 @@ namespace osu_memory::implementation
 		PVOID base{};
 
 	private:
-		virtual bool on_construct(const os::process& process) override
-		{
-			auto address = find(process, binary, mask);
-			if (address)
-			{
-				base = *address;
-				return true;
-			}
-			return false;
-		}
-		virtual void on_reset() override
-		{
-			base = 0;
-		}
+		virtual bool on_construct(const os::process& process) override;
+		virtual void on_reset() override;
 
 	private:
-		std::optional<int32_t> _sync_get_hit(const os::process& process, intptr_t last_offset)
-		{
-			if (!construct(process))
-				return std::nullopt;
-
-			int32_t crt = int32_t(intptr_t(base)); // 32-bit osu!
-			for (auto offset : offsets)
-			{
-				auto addr = read_memory<int32_t>(process, PVOID(crt + offset));
-				if (!addr)
-					return std::nullopt; // No need to reset.
-				crt = *addr;
-			}
-			return read_memory<int16_t>(process, PVOID(crt + last_offset));
-		}
-		std::optional<int32_t> _sync_get_miss(const os::process& process)
-		{
-			return _sync_get_hit(process, 0x92);
-		}
+		std::optional<int32_t> _sync_get_hit(const os::process& process, intptr_t last_offset);
+		std::optional<int32_t> _sync_get_miss(const os::process& process);
 
 	public:
-		std::optional<int32_t> get_miss(const os::process& process, bool async = true, std::chrono::nanoseconds async_timeout = std::chrono::microseconds(999))
-		{
-			if (busy())
-				return std::nullopt;
-			if (commit(std::bind(&imp_hits::_sync_get_miss, this, process), async, async_timeout))
-				return std::any_cast<std::optional<int32_t>>(get_package());
-			return std::nullopt;
-		}
+		std::optional<int32_t> get_miss(const os::process& process, bool async = true, std::chrono::nanoseconds async_timeout = std::chrono::microseconds(999));
 	};
 }
