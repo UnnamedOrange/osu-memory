@@ -27,12 +27,11 @@ namespace osu_memory::implementation
 		/// If it fails, the return value is std::nullopt.
 		/// </summary>
 		template <typename trivial_t>
-		static std::optional<trivial_t> read_memory(const os::process& process, LPCVOID address_start)
+		static std::optional<trivial_t> read_memory(HANDLE hProcess, LPCVOID address_start)
 		{
 			static_assert(std::is_trivial_v<trivial_t>, "trivial_t must be trivial.");
 			static_assert(!std::is_pointer_v<trivial_t>, "trivial_t cannot be a pointer type");
 
-			HANDLE hProcess = process.native_handle();
 			if (!hProcess)
 				return std::nullopt;
 			trivial_t ret{};
@@ -42,6 +41,20 @@ namespace osu_memory::implementation
 				return std::nullopt;
 			return ret;
 		}
+		/// <summary>
+		/// Read memory from the specific process.
+		/// If it fails, the return value is std::nullopt.
+		/// </summary>
+		template <typename trivial_t>
+		static std::optional<trivial_t> read_memory(const os::process& process, LPCVOID address_start)
+		{
+			return read_memory<trivial_t>(process.native_handle(), address_start);
+		}
+		/// <summary>
+		/// Read memory from the specific process.
+		/// If it fails, the return value is std::nullopt.
+		/// </summary>
+		static std::optional<std::vector<uint8_t>> read_memory(HANDLE hProcess, LPCVOID address_start, SIZE_T size);
 		/// <summary>
 		/// Read memory from the specific process.
 		/// If it fails, the return value is std::nullopt.

@@ -5,9 +5,8 @@
 
 namespace osu_memory::implementation
 {
-	std::optional<std::vector<uint8_t>> imp_base::read_memory(const os::process& process, LPCVOID address_start, SIZE_T size)
+	std::optional<std::vector<uint8_t>> imp_base::read_memory(HANDLE hProcess, LPCVOID address_start, SIZE_T size)
 	{
-		HANDLE hProcess = process.native_handle();
 		if (!hProcess)
 			return std::nullopt;
 
@@ -17,6 +16,10 @@ namespace osu_memory::implementation
 			read != size)
 			return std::nullopt;
 		return ret;
+	}
+	std::optional<std::vector<uint8_t>> imp_base::read_memory(const os::process& process, LPCVOID address_start, SIZE_T size)
+	{
+		return read_memory(process.native_handle(), address_start, size);
 	}
 
 	bool imp_base::construct(const os::process& process)

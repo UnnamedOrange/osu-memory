@@ -27,15 +27,16 @@ namespace osu_memory::implementation
 		if (!construct(process))
 			return std::nullopt;
 
+		HANDLE hProcess = process.native_handle();
 		int32_t crt = int32_t(intptr_t(base)); // 32-bit osu!
 		for (auto offset : offsets)
 		{
-			auto addr = read_memory<int32_t>(process, PVOID(crt + offset));
+			auto addr = read_memory<int32_t>(hProcess, PVOID(crt + offset));
 			if (!addr)
 				return std::nullopt; // No need to reset.
 			crt = *addr;
 		}
-		return read_memory<int16_t>(process, PVOID(crt + last_offset));
+		return read_memory<int16_t>(hProcess, PVOID(crt + last_offset));
 	}
 	std::optional<int32_t> imp_hits::_sync_get_miss(const os::process& process)
 	{
