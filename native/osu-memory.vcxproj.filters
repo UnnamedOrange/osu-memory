@@ -24,6 +24,9 @@
     <ClInclude Include="include\osu_memory\imp_base.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\imp_hits.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\osu_memory\process.cpp">

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\osu_memory\imp_base.h" />
+    <ClInclude Include="include\osu_memory\imp_hits.h" />
     <ClInclude Include="include\osu_memory\osu_memory.h" />
     <ClInclude Include="include\osu_memory\process.h" />
   </ItemGroup>

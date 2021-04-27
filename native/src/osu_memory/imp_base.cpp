@@ -18,55 +18,30 @@ namespace osu_memory::implementation
 			return std::nullopt;
 		return ret;
 	}
-	std::optional<PVOID> imp_base::find(const os::process& process, const std::vector<uint8_t> bin, std::string_view mask)
+
+	bool imp_base::construct(const os::process& process)
 	{
-		if (bin.size() != mask.length())
-			throw std::invalid_argument("Sizes of bin and mask must be the same.");
-
-		HANDLE hProcess = process.native_handle();
-		if (!hProcess)
-			return std::nullopt;
-
-		PVOID min_address;
-		PVOID max_address;
+		bool process_changed = false;
+		if (binded_process != process)
 		{
-			SYSTEM_INFO sys_info;
-			GetSystemInfo(&sys_info);
-			min_address = sys_info.lpMinimumApplicationAddress;
-			max_address = sys_info.lpMaximumApplicationAddress;
+			binded_process = process;
+			process_changed = true;
 		}
-
-		PVOID crt_address = min_address;
-		while (crt_address < max_address)
+		if (process_changed && !binded_process.empty() || !is_constructed)
 		{
-			MEMORY_BASIC_INFORMATION mem_info;
-			if (!VirtualQueryEx(hProcess, crt_address, &mem_info, sizeof(mem_info)))
-				return std::nullopt;
-
-			if ((mem_info.Protect & PAGE_EXECUTE_READWRITE) && mem_info.State == MEM_COMMIT)
-			{
-				// Do matches here.
-				auto region_data = read_memory(process,
-					mem_info.BaseAddress, mem_info.RegionSize);
-				if (!region_data)
-					continue;
-
-				for (size_t i = 0; i + bin.size() - 1 < (*region_data).size(); i++)
-				{
-					bool ok = true;
-					for (size_t j = 0; j < bin.size(); j++)
-						if (!(mask[j] == '?' || (*region_data)[i + j] == bin[j]))
-						{
-							ok = false;
-							break;
-						}
-					if (ok)
-						return PVOID(uintptr_t(mem_info.BaseAddress) + i);
-				}
-
-			}
-			crt_address = PVOID(uintptr_t(crt_address) + mem_info.RegionSize);
+			if (on_construct(process))
+				is_constructed = true;
+			else
+				reset();
 		}
-		return std::nullopt;
+		else if (binded_process.empty())
+			reset();
+		return is_constructed;
+	}
+	void imp_base::reset()
+	{
+		on_reset();
+		binded_process.reset();
+		is_constructed = false;
 	}
 }
