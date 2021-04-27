@@ -4,3 +4,4 @@
 #pragma once
 
 #include <osu_memory/process.h>
+#include <osu_memory/imp_base.h>

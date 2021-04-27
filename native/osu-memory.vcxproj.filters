@@ -21,9 +21,15 @@
     <ClInclude Include="include\osu_memory\process.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\imp_base.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\osu_memory\process.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\osu_memory\imp_base.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
