@@ -54,11 +54,17 @@ namespace osu_memory::os
 	}
 	void process::_check() const
 	{
-		if (DWORD code;
-			handle && (!GetExitCodeProcess(handle, &code) || code != STILL_ACTIVE))
+		auto now = std::chrono::steady_clock::now();
+		using namespace std::literals;
+		if (now - cache_time > 16ms)
 		{
-			CloseHandle(handle);
-			handle = 0;
+			cache_time = now;
+			if (DWORD code;
+				handle && (!GetExitCodeProcess(handle, &code) || code != STILL_ACTIVE))
+			{
+				CloseHandle(handle);
+				handle = 0;
+			}
 		}
 	}
 	void process::wait_until_exit()

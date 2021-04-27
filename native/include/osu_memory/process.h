@@ -5,6 +5,7 @@
 
 #include <stdexcept>
 #include <vector>
+#include <chrono>
 #include <string_view>
 #include <Windows.h>
 
@@ -86,6 +87,7 @@ namespace osu_memory::os
 		/// </summary>
 		bool empty() const;
 	private:
+		mutable std::chrono::steady_clock::time_point cache_time{};
 		/// <summary>
 		/// Call this at the entry of any function.
 		/// This will cause 500ns of lag.
