@@ -34,6 +34,10 @@ namespace osu_memory::os
 	{
 		return native_id() == another.native_id();
 	}
+	bool process::operator!=(const process& another) const
+	{
+		return native_id() != another.native_id();
+	}
 
 	void process::reset()
 	{
