@@ -46,7 +46,7 @@ namespace osu_memory::implementation
 	{
 		if (busy())
 			return std::nullopt;
-		if (commit(std::bind(&imp_hits::_sync_get_miss, this, process), async, async_timeout))
+		if (commit(std::bind(&imp_hits::_sync_get_miss, this, std::ref(process)), async, async_timeout))
 			return std::any_cast<std::optional<int32_t>>(get_package());
 		return std::nullopt;
 	}
