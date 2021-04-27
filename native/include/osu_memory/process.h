@@ -74,6 +74,7 @@ namespace osu_memory::os
 
 	public:
 		bool operator==(const process& another) const;
+		bool operator!=(const process& another) const;
 
 	public:
 		/// <summary>
