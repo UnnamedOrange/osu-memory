@@ -33,6 +33,6 @@ namespace osu_memory::implementation
 		/// Get the count of miss.
 		/// Note that maybe the result is not nullopt but it is invalid.
 		/// </summary>
-		std::optional<int32_t> get_miss(const os::process& process, bool async = true, std::chrono::nanoseconds async_timeout = std::chrono::microseconds(999));
+		std::optional<int32_t> get_miss(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
 	};
 }

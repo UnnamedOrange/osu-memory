@@ -6,3 +6,4 @@
 #include <osu_memory/process.h>
 #include <osu_memory/imp_base.h>
 #include <osu_memory/imp_hits.h>
+#include <osu_memory/reader.h>
