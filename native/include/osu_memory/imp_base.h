@@ -127,10 +127,21 @@ namespace osu_memory::implementation
 	private:
 		virtual bool on_construct(const os::process& process) = 0;
 	protected:
+		/// <summary>
+		/// Call this if you want to use your prepared data.
+		/// You need to implement on_construct.
+		/// </summary>
+		/// <param name="process"></param>
+		/// <returns></returns>
 		bool construct(const os::process& process);
 	private:
 		virtual void on_reset() = 0;
 	protected:
+		/// <summary>
+		/// Call this if you find your data outdated.
+		/// You need to implement on_reset.
+		/// It will be called automatically in construct if the process has changed.
+		/// </summary>
 		void reset();
 
 	private:
@@ -145,8 +156,22 @@ namespace osu_memory::implementation
 	private:
 		void worker();
 	protected:
+		/// <summary>
+		/// Whether the async workflow is busy. commit fails if is.
+		/// </summary>
+		/// <returns></returns>
 		bool busy() const;
+		/// <summary>
+		/// Get the result of the workflow. You should use this only if commit returns true.
+		/// </summary>
+		/// <returns></returns>
 		const std::any get_package() const;
+		/// <summary>
+		/// Commit a task to the workflow.
+		/// </summary>
+		/// <param name="f">return_t()</param>
+		/// <param name="async">Whether the task is done in another thread or in current thread; the latter is faster.</param>
+		/// <param name="async_timeout">If async is true, the longest time commit will return. Note the difference between 999us and 1000us; the latter is actually 16ms or so at least. If async is false, this parameter is ignored</param>
 		template <typename func_t>
 		bool commit(func_t f, bool async, std::chrono::nanoseconds async_timeout)
 		{
