@@ -27,6 +27,11 @@ namespace osu_memory::implementation
 	private:
 		std::optional<int32_t> _sync_get_hit(const os::process& process, intptr_t last_offset);
 		std::optional<int32_t> _sync_get_miss(const os::process& process);
+		std::optional<int32_t> _sync_get_50(const os::process& process);
+		std::optional<int32_t> _sync_get_100(const os::process& process);
+		std::optional<int32_t> _sync_get_200(const os::process& process);
+		std::optional<int32_t> _sync_get_300(const os::process& process);
+		std::optional<int32_t> _sync_get_perfect(const os::process& process);
 
 	public:
 		/// <summary>
@@ -34,5 +39,30 @@ namespace osu_memory::implementation
 		/// Note that maybe the result is not nullopt but it is invalid.
 		/// </summary>
 		std::optional<int32_t> get_miss(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
+		/// <summary>
+		/// Get the count of 50.
+		/// Note that maybe the result is not nullopt but it is invalid.
+		/// </summary>
+		std::optional<int32_t> get_50(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
+		/// <summary>
+		/// Get the count of 100.
+		/// Note that maybe the result is not nullopt but it is invalid.
+		/// </summary>
+		std::optional<int32_t> get_100(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
+		/// <summary>
+		/// Get the count of 200.
+		/// Note that maybe the result is not nullopt but it is invalid.
+		/// </summary>
+		std::optional<int32_t> get_200(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
+		/// <summary>
+		/// Get the count of 300 (yellow).
+		/// Note that maybe the result is not nullopt but it is invalid.
+		/// </summary>
+		std::optional<int32_t> get_300(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
+		/// <summary>
+		/// Get the count of perfect.
+		/// Note that maybe the result is not nullopt but it is invalid.
+		/// </summary>
+		std::optional<int32_t> get_perfect(const os::process& process, bool async, std::chrono::nanoseconds async_timeout);
 	};
 }

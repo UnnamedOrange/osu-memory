@@ -42,12 +42,72 @@ namespace osu_memory::implementation
 	{
 		return _sync_get_hit(process, 0x92);
 	}
+	std::optional<int32_t> imp_hits::_sync_get_50(const os::process& process)
+	{
+		return _sync_get_hit(process, 0x8c);
+	}
+	std::optional<int32_t> imp_hits::_sync_get_100(const os::process& process)
+	{
+		return _sync_get_hit(process, 0x88);
+	}
+	std::optional<int32_t> imp_hits::_sync_get_200(const os::process& process)
+	{
+		return _sync_get_hit(process, 0x90);
+	}
+	std::optional<int32_t> imp_hits::_sync_get_300(const os::process& process)
+	{
+		return _sync_get_hit(process, 0x8A);
+	}
+	std::optional<int32_t> imp_hits::_sync_get_perfect(const os::process& process)
+	{
+		return _sync_get_hit(process, 0x8E);
+	}
 
 	std::optional<int32_t> imp_hits::get_miss(const os::process& process, bool async, std::chrono::nanoseconds async_timeout)
 	{
 		if (busy())
 			return std::nullopt;
 		if (commit(std::bind(&imp_hits::_sync_get_miss, this, std::ref(process)), async, async_timeout))
+			return std::any_cast<std::optional<int32_t>>(get_package());
+		return std::nullopt;
+	}
+	std::optional<int32_t> imp_hits::get_50(const os::process& process, bool async, std::chrono::nanoseconds async_timeout)
+	{
+		if (busy())
+			return std::nullopt;
+		if (commit(std::bind(&imp_hits::_sync_get_50, this, std::ref(process)), async, async_timeout))
+			return std::any_cast<std::optional<int32_t>>(get_package());
+		return std::nullopt;
+	}
+	std::optional<int32_t> imp_hits::get_100(const os::process& process, bool async, std::chrono::nanoseconds async_timeout)
+	{
+		if (busy())
+			return std::nullopt;
+		if (commit(std::bind(&imp_hits::_sync_get_100, this, std::ref(process)), async, async_timeout))
+			return std::any_cast<std::optional<int32_t>>(get_package());
+		return std::nullopt;
+	}
+	std::optional<int32_t> imp_hits::get_200(const os::process& process, bool async, std::chrono::nanoseconds async_timeout)
+	{
+		if (busy())
+			return std::nullopt;
+		if (commit(std::bind(&imp_hits::_sync_get_200, this, std::ref(process)), async, async_timeout))
+			return std::any_cast<std::optional<int32_t>>(get_package());
+		return std::nullopt;
+	}
+	std::optional<int32_t> imp_hits::get_300(const os::process& process, bool async, std::chrono::nanoseconds async_timeout)
+	{
+		if (busy())
+			return std::nullopt;
+		if (commit(std::bind(&imp_hits::_sync_get_300, this, std::ref(process)), async, async_timeout))
+			return std::any_cast<std::optional<int32_t>>(get_package());
+		return std::nullopt;
+	}
+	std::optional<int32_t> imp_hits::get_perfect(const os::process& process, bool async, std::chrono::nanoseconds async_timeout)
+	{
+		if (busy())
+			return std::nullopt;
+		if (commit(std::bind(&imp_hits::_sync_get_perfect, this, std::ref(process)), async, async_timeout))
 			return std::any_cast<std::optional<int32_t>>(get_package());
 		return std::nullopt;
 	}
