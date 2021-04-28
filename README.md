@@ -8,6 +8,18 @@ This project is under consideration.
 
 To rediscover my childhood.
 
+## Use
+
+```cpp
+#include <osu_memory/osu_memory.h>
+using namespace osu_memory;
+auto t1 = reader::get_50();
+auto t2 = reader::get_100();
+auto t3 = reader::get_200();
+auto t4 = reader::get_300();
+auto t5 = reader::get_perfect();
+```
+
 ## License
 
 Copyright (c) UnnamedOrange. Licensed under the MIT License.
