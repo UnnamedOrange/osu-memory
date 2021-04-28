@@ -20,7 +20,7 @@ namespace osu_memory
 	private:
 		reader() = default;
 		static reader& singleton();
-		bool update_process();
+		void update_process();
 
 	public:
 		/// <summary>

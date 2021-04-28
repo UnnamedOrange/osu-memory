@@ -10,7 +10,7 @@ namespace osu_memory
 		static reader _;
 		return _;
 	}
-	bool reader::update_process()
+	void reader::update_process()
 	{
 		if (_p.empty())
 		{
