@@ -25,19 +25,22 @@ namespace osu_memory::implementation
 	bool imp_base::construct(const os::process& process)
 	{
 		bool process_changed = false;
-		if (binded_process != process)
+		DWORD id_this = binded_process.native_id();
+		DWORD id_another = process.native_id();
+		if (id_this != id_another)
 		{
 			binded_process = process;
+			id_this = id_another;
 			process_changed = true;
 		}
-		if (process_changed && !binded_process.empty() || !is_constructed)
+		if (process_changed && id_this || !is_constructed)
 		{
 			if (on_construct(process))
 				is_constructed = true;
 			else
 				reset();
 		}
-		else if (binded_process.empty())
+		else if (!id_this)
 			reset();
 		return is_constructed;
 	}
