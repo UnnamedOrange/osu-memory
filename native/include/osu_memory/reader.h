@@ -8,6 +8,7 @@
 
 #include <osu_memory/process.h>
 #include <osu_memory/imp_hits.h>
+#include <osu_memory/imp_keys.h>
 
 namespace osu_memory
 {
@@ -16,6 +17,7 @@ namespace osu_memory
 	private:
 		os::process _p;
 		implementation::imp_hits _imp_hits;
+		implementation::imp_keys _imp_keys;
 
 	private:
 		reader() = default;
@@ -53,5 +55,7 @@ namespace osu_memory
 		/// Note that maybe the result is not nullopt but it is invalid.
 		/// </summary>
 		static std::optional<int32_t> get_perfect(bool async = true, std::chrono::nanoseconds async_timeout = std::chrono::microseconds(999));
+
+		static std::optional<std::vector<std::pair<int, bool>>> get_keys(bool async = true, std::chrono::nanoseconds async_timeout = std::chrono::microseconds(999));
 	};
 }

@@ -56,4 +56,11 @@ namespace osu_memory
 		s.update_process();
 		return s._imp_hits.get_perfect(s._p, async, async_timeout);
 	}
+
+	std::optional<std::vector<std::pair<int, bool>>> reader::get_keys(bool async, std::chrono::nanoseconds async_timeout)
+	{
+		auto& s = singleton();
+		s.update_process();
+		return s._imp_keys.get_keys(s._p, async, async_timeout);
+	}
 }

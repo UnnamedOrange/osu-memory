@@ -46,5 +46,15 @@ int main(int argn, char** argv)
 			if (t)
 				std::cout << "perfect: " << *t << std::endl;
 		}
+		{
+			auto t = reader::get_keys(false);
+			if (t)
+			{
+				const auto& a = *t;
+				for (const auto& k : a)
+					std::cout << k.second;
+				std::cout << std::endl;
+			}
+		}
 	}
 }
