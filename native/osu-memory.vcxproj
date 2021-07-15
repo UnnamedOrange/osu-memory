@@ -18,21 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\osu_memory\imp_base.h" />
-    <ClInclude Include="include\osu_memory\imp_hits.h" />
-    <ClInclude Include="include\osu_memory\imp_keys.h" />
-    <ClInclude Include="include\osu_memory\osu_memory.h" />
-    <ClInclude Include="include\osu_memory\process.h" />
-    <ClInclude Include="include\osu_memory\reader.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\osu_memory\imp_base.cpp" />
-    <ClCompile Include="src\osu_memory\imp_hits.cpp" />
-    <ClCompile Include="src\osu_memory\imp_keys.cpp" />
-    <ClCompile Include="src\osu_memory\process.cpp" />
-    <ClCompile Include="src\osu_memory\reader.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
