@@ -32,6 +32,7 @@ namespace osu_memory::os
 
 	/// <summary>
 	/// Process object type for Windows. A helper to hold the handle of the process.
+	/// @NotThreadSafe.
 	/// </summary>
 	class process
 	{
