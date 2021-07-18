@@ -42,7 +42,7 @@ namespace osu_memory::os
 		process() noexcept = default;
 		process(native_id_t pid, DWORD desired_access)
 		{
-			HANDLE hProcess = OpenProcess(desired_access, false, pid);
+			HANDLE hProcess = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION | desired_access, false, pid);
 			if (!hProcess)
 				throw open_process_error("Fail to OpenProcess.");
 			handle = hProcess;
