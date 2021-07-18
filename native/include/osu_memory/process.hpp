@@ -35,7 +35,7 @@ namespace osu_memory::os
 	/// </summary>
 	class process
 	{
-	private:
+	protected:
 		native_handle_t handle{};
 
 	public:
@@ -63,10 +63,10 @@ namespace osu_memory::os
 		{
 			if (this != &another)
 			{
-				if (another.handle)
+				if (another.native_handle())
 				{
 					HANDLE hProcess{};
-					if (!DuplicateHandle(GetCurrentProcess(), another.handle,
+					if (!DuplicateHandle(GetCurrentProcess(), another.native_handle(),
 						GetCurrentProcess(), &hProcess,
 						NULL, false, DUPLICATE_SAME_ACCESS))
 						throw open_process_error("Fail to DuplicateHandle.");
@@ -80,7 +80,7 @@ namespace osu_memory::os
 		{
 			if (this != &another)
 			{
-				handle = another.handle;
+				handle = another.native_handle();
 				another.handle = 0;
 			}
 			return *this;
@@ -108,9 +108,9 @@ namespace osu_memory::os
 		/// </summary>
 		void reset() noexcept
 		{
-			if (handle)
+			if (native_handle())
 			{
-				CloseHandle(handle);
+				CloseHandle(native_handle());
 				handle = 0;
 			}
 		}
@@ -119,7 +119,7 @@ namespace osu_memory::os
 		/// </summary>
 		[[nodiscard]] bool empty() const noexcept
 		{
-			return !handle;
+			return !native_handle();
 		}
 	public:
 		/// <summary>
@@ -128,8 +128,8 @@ namespace osu_memory::os
 		/// </summary>
 		void wait_until_exit() const noexcept
 		{
-			if (handle)
-				WaitForSingleObject(handle, INFINITE);
+			if (native_handle())
+				WaitForSingleObject(native_handle(), INFINITE);
 		}
 	public:
 		/// <summary>
@@ -144,7 +144,7 @@ namespace osu_memory::os
 		/// </summary>
 		[[nodiscard]] native_id_t native_id() const noexcept
 		{
-			return GetProcessId(handle);
+			return GetProcessId(native_handle());
 		}
 
 	public:
