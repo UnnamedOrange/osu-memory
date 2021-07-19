@@ -24,5 +24,8 @@
     <ClInclude Include="include\osu_memory\readable_process.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\singleton.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
