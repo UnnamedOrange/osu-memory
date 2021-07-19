@@ -27,6 +27,7 @@ namespace osu_memory::os
 	class open_process_error : public std::runtime_error
 	{
 	public:
+		open_process_error() = delete; // Reduce C4623.
 		using std::runtime_error::runtime_error;
 	};
 
@@ -48,7 +49,7 @@ namespace osu_memory::os
 				throw open_process_error("Fail to OpenProcess.");
 			handle = hProcess;
 		}
-		virtual ~process()
+		virtual ~process() noexcept
 		{
 			reset();
 		}
