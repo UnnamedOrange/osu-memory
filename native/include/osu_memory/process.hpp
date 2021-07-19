@@ -133,6 +133,18 @@ namespace osu_memory::os
 			if (native_handle())
 				WaitForSingleObject(native_handle(), INFINITE);
 		}
+		/// <summary>
+		/// Whether the process is still active.
+		/// If the process object is empty, false is to be returned.
+		/// </summary>
+		[[nodiscard]] bool still_active() const noexcept
+		{
+			if (!native_handle())
+				return false;
+			DWORD exit_code{};
+			GetExitCodeProcess(native_handle(), &exit_code); // Assume it always successful.
+			return exit_code == STILL_ACTIVE;
+		}
 	public:
 		/// <summary>
 		/// Get the native handle (HANDLE) of the process.
