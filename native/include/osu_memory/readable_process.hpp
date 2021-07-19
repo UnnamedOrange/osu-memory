@@ -12,9 +12,18 @@
 
 namespace osu_memory::os
 {
+	/// <summary>
+	/// CRTP reading process memory support.
+	/// </summary>
 	template <typename T>
 	class enable_readable_process
 	{
+		static_assert(std::is_same_v<decltype(T().native_handle()), native_handle_t>,
+			"native_handle() of T must be native_handle_t.");
+
+	public:
+		virtual ~enable_readable_process() noexcept = default;
+
 	public:
 		/// <summary>
 		/// Read memory from the specific process.
@@ -58,7 +67,7 @@ namespace osu_memory::os
 			static_assert(sizeof(LPCVOID) >= sizeof(addr_t),
 				"addr_t should not be smaller than uintptr_t.");
 
-			T* __this = reinterpret_cast<T*>(this);
+			T* __this = dynamic_cast<T*>(this);
 			if (!__this->native_handle())
 				return std::nullopt;
 
