@@ -10,13 +10,17 @@
 
 #include <osu_memory/readable_process.hpp>
 #include <osu_memory/singleton.hpp>
+#include <osu_memory/stamp_recorder.hpp>
 
 namespace osu_memory::os
 {
 	/// <summary>
 	/// A singleton process object. It automatically check the status of osu!.exe.
 	/// </summary>
-	class osu_daemon final : public readable_process, public utils::enable_singleton<osu_daemon>
+	class osu_daemon final :
+		public readable_process,
+		public utils::enable_singleton<osu_daemon>,
+		public utils::enable_stamp_recorder<true>
 	{
 		friend class utils::enable_singleton<osu_daemon>;
 		osu_daemon() noexcept = default;
@@ -52,12 +56,18 @@ namespace osu_memory::os
 				{
 					auto lists = process::open(L"osu!.exe", PROCESS_VM_READ);
 					if (lists.size())
+					{
 						*this = lists[0];
+						increase_stamp();
+					}
 				}
 				else // Else, check whether osu! is still alive.
 				{
 					if (!still_active())
+					{
 						reset();
+						increase_stamp();
+					}
 				}
 			}
 		}

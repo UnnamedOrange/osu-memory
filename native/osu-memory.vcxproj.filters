@@ -30,5 +30,8 @@
     <ClInclude Include="include\osu_memory\osu_daemon.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\stamp_recorder.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
