@@ -23,6 +23,7 @@
     <ClInclude Include="include\osu_memory\osu_memory.h" />
     <ClInclude Include="include\osu_memory\process.hpp" />
     <ClInclude Include="include\osu_memory\readable_process.hpp" />
+    <ClInclude Include="include\osu_memory\reader_base.hpp" />
     <ClInclude Include="include\osu_memory\singleton.hpp" />
     <ClInclude Include="include\osu_memory\stamp_receiver.hpp" />
     <ClInclude Include="include\osu_memory\stamp_receiver_impl.hpp" />
