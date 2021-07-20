@@ -39,9 +39,9 @@ namespace osu_memory::utils
 		/// <returns>If the stamp is different from the source, returns true. Otherwise false.</returns>
 		bool update()
 		{
-			bool ret = crt != get_stamp();
-			crt = get_stamp();
-			return ret;
+			stamp_base_t crt_stamp = get_stamp();
+			crt = crt_stamp;
+			return crt != crt_stamp;
 		}
 	};
 }
