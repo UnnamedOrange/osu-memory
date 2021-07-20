@@ -28,7 +28,7 @@ namespace osu_memory::utils
 
 	private:
 		stamp_t stamp{};
-	protected:
+	public:
 		/// <summary>
 		/// Reset the stamp.
 		/// </summary>
@@ -43,7 +43,6 @@ namespace osu_memory::utils
 		{
 			stamp++;
 		}
-
 	public:
 		/// <summary>
 		/// Get the stamp.
