@@ -40,7 +40,7 @@ namespace osu_memory::os
 				"preferred_size_t should be unsigned integer.");
 
 			const T* __this = reinterpret_cast<const T*>(this);
-			if (!__this->native_handle())
+			if (__this->empty())
 				return std::nullopt;
 
 			std::vector<uint8_t> ret(size);
@@ -68,7 +68,7 @@ namespace osu_memory::os
 				"addr_t should not be smaller than uintptr_t.");
 
 			const T* __this = dynamic_cast<const T*>(this);
-			if (!__this->native_handle())
+			if (__this->empty())
 				return std::nullopt;
 
 			trivial_t ret{};
@@ -78,6 +78,67 @@ namespace osu_memory::os
 				read != sizeof(ret))
 				return std::nullopt;
 			return ret;
+		}
+
+	public:
+		/// <summary>
+		/// Find matched binary from memory.
+		/// Only address of the first matched sequence will be returned.
+		/// If failed, or no sequence matched, it returns std::nullopt.
+		/// </summary>
+		/// <param name="bin">Binary sequence.</param>
+		/// <param name="mask">Mask. '?' means one byte can be any.</param>
+		template <typename vector_t>
+		std::optional<uintptr_t> find(const vector_t& bin, std::string_view mask) const
+		{
+			static_assert(std::is_same_v<typename vector_t::value_type, uint8_t>, "Value type of bin must be uint8_t.");
+			if (bin.size() != mask.size())
+				throw std::invalid_argument("Sizes of bin and mask must be the same.");
+
+			const T* __this = reinterpret_cast<const T*>(this);
+			if (__this->empty())
+				return std::nullopt;
+
+			PVOID min_address;
+			PVOID max_address;
+			{
+				SYSTEM_INFO sys_info;
+				GetSystemInfo(&sys_info);
+				min_address = sys_info.lpMinimumApplicationAddress;
+				max_address = sys_info.lpMaximumApplicationAddress;
+			}
+
+			PVOID crt_address = min_address;
+			while (crt_address < max_address)
+			{
+				MEMORY_BASIC_INFORMATION mem_info;
+				if (!VirtualQueryEx(__this->native_handle(), crt_address, &mem_info, sizeof(mem_info)))
+					return std::nullopt;
+
+				if ((mem_info.Protect & PAGE_EXECUTE_READWRITE) && mem_info.State == MEM_COMMIT)
+				{
+					// Do matches here.
+					auto region_data = read_memory(mem_info.BaseAddress, mem_info.RegionSize);
+					if (!region_data)
+						continue;
+
+					for (size_t i = 0; i + bin.size() - 1 < (*region_data).size(); i++)
+					{
+						bool ok = true;
+						for (size_t j = 0; j < bin.size(); j++)
+							if (!(mask[j] == '?' || (*region_data)[i + j] == bin[j]))
+							{
+								ok = false;
+								break;
+							}
+						if (ok)
+							return uintptr_t(mem_info.BaseAddress) + i;
+					}
+
+				}
+				crt_address = PVOID(uintptr_t(crt_address) + mem_info.RegionSize);
+			}
+			return std::nullopt;
 		}
 	};
 
