@@ -38,11 +38,13 @@ namespace osu_memory::os
 			using namespace std::literals;
 			while (true)
 			{
-				std::unique_lock lock(mutex_cv);
-				if (cv.wait_for(lock, 1s,
-					[this]() { return exit; })) // Wait for 1s. If pred is true, exit at once.
 				{
-					break;
+					std::unique_lock lock(mutex_cv);
+					if (cv.wait_for(lock, 1s,
+						[this]() { return exit; })) // Wait for 1s. If pred is true, exit at once.
+					{
+						break;
+					}
 				}
 
 				// Do the routine.
