@@ -30,7 +30,7 @@ namespace osu_memory::os
 		/// If it fails, the return value is std::nullopt.
 		/// </summary>
 		template <typename addr_t, typename preferred_size_t>
-		std::optional<std::vector<uint8_t>> read_memory(addr_t address_start, preferred_size_t size)
+		std::optional<std::vector<uint8_t>> read_memory(addr_t address_start, preferred_size_t size) const
 		{
 			static_assert(sizeof(addr_t) >= 4,
 				"A pointer is at least 32 bits.");
@@ -39,7 +39,7 @@ namespace osu_memory::os
 			static_assert(std::is_integral_v<preferred_size_t> && std::is_unsigned_v<preferred_size_t>,
 				"preferred_size_t should be unsigned integer.");
 
-			T* __this = reinterpret_cast<T*>(this);
+			const T* __this = reinterpret_cast<const T*>(this);
 			if (!__this->native_handle())
 				return std::nullopt;
 
@@ -56,7 +56,7 @@ namespace osu_memory::os
 		/// If it fails, the return value is std::nullopt.
 		/// </summary>
 		template <typename trivial_t, typename addr_t>
-		std::optional<trivial_t> read_memory(addr_t address_start)
+		std::optional<trivial_t> read_memory(addr_t address_start) const
 		{
 			static_assert(std::is_trivial_v<trivial_t>,
 				"trivial_t must be trivial.");
@@ -67,7 +67,7 @@ namespace osu_memory::os
 			static_assert(sizeof(LPCVOID) >= sizeof(addr_t),
 				"addr_t should not be smaller than uintptr_t.");
 
-			T* __this = dynamic_cast<T*>(this);
+			const T* __this = dynamic_cast<const T*>(this);
 			if (!__this->native_handle())
 				return std::nullopt;
 
