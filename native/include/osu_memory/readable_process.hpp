@@ -18,7 +18,7 @@ namespace osu_memory::os
 	template <typename T>
 	class enable_readable_process
 	{
-		static_assert(std::is_same_v<decltype(T().native_handle()), native_handle_t>,
+		static_assert(std::is_same_v<decltype(T().native_handle()), process::native_handle_t>,
 			"native_handle() of T must be native_handle_t.");
 
 	public:

@@ -14,14 +14,6 @@
 namespace osu_memory::os
 {
 	/// <summary>
-	/// Type of native process id.
-	/// </summary>
-	using native_id_t = DWORD;
-	/// <summary>
-	/// Type of native process handle.
-	/// </summary>
-	using native_handle_t = HANDLE;
-	/// <summary>
 	/// Will be thrown on an error occurring when opening the process or duplicating the handle.
 	/// </summary>
 	class open_process_error : public std::runtime_error
@@ -37,6 +29,16 @@ namespace osu_memory::os
 	/// </summary>
 	class process
 	{
+	public:
+		/// <summary>
+		/// Type of native process id.
+		/// </summary>
+		using native_id_t = DWORD;
+		/// <summary>
+		/// Type of native process handle.
+		/// </summary>
+		using native_handle_t = HANDLE;
+
 	protected:
 		native_handle_t handle{};
 
