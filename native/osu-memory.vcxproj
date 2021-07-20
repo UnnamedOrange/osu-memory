@@ -24,6 +24,8 @@
     <ClInclude Include="include\osu_memory\process.hpp" />
     <ClInclude Include="include\osu_memory\readable_process.hpp" />
     <ClInclude Include="include\osu_memory\singleton.hpp" />
+    <ClInclude Include="include\osu_memory\stamp_receiver.hpp" />
+    <ClInclude Include="include\osu_memory\stamp_receiver_impl.hpp" />
     <ClInclude Include="include\osu_memory\stamp_recorder.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

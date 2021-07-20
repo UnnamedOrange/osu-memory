@@ -33,5 +33,11 @@
     <ClInclude Include="include\osu_memory\stamp_recorder.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\stamp_receiver.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\osu_memory\stamp_receiver_impl.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
