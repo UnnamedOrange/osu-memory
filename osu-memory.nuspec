@@ -17,9 +17,9 @@ Yet another memory reader for osu! in C++.
     </metadata>
 
     <files>
-        <file src="native/include/**/*.*" target="build/"/>
-        <file src="native/src/**/*.*" target="build/"/>
-        <file src="native/osu-memory.targets" target="build/native"/>
+        <file src="native/include/**/*.*" target="build/native/include/"/>
+        <file src="native/src/**/*.*" target="build/native/src/"/>
+        <file src="native/osu-memory.targets" target="build/native/"/>
         <file src="README.md" target="build/"/>
         <file src="LICENSE*" target="build/"/>
     </files>
