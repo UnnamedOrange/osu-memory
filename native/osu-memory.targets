@@ -8,6 +8,7 @@
   <Target Name="osu_memory_sources" AfterTargets="BuildGenerateSources">
     <ItemGroup>
       <ClCompile Include="$(MSBuildThisFileDirectory)src\osu_memory\*.*"/>
+      <ClInclude Include="$(MSBuildThisFileDirectory)include\osu_memory\*.*"/>
     </ItemGroup>
   </Target>
   <PropertyGroup>
