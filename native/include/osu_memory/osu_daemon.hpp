@@ -42,16 +42,6 @@ namespace osu_memory::os
 			using namespace std::literals;
 			while (true)
 			{
-				{
-					std::unique_lock lock(mutex_cv);
-					if (cv.wait_for(lock, 1s,
-						[this]() { return exit; })) // Wait for 1s. If pred is true, exit at once.
-					{
-						break;
-					}
-				}
-
-				// Do the routine.
 				if (empty()) // If empty, find osu!.
 				{
 					auto lists = process::open(L"osu!.exe", PROCESS_VM_READ);
@@ -68,6 +58,13 @@ namespace osu_memory::os
 						reset();
 						increase_stamp();
 					}
+				}
+
+				std::unique_lock lock(mutex_cv);
+				if (cv.wait_for(lock, 1s,
+					[this]() { return exit; })) // Wait for 1s. If pred is true, exit at once.
+				{
+					break;
 				}
 			}
 		}
