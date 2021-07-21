@@ -13,6 +13,8 @@
 /// https://my.oschina.net/u/4526289/blog/4760178
 /// </summary>
 
+#if !_HAS_CXX20
+
 namespace std
 {
 	template<typename R, typename P, size_t N, size_t... I>
@@ -39,3 +41,5 @@ namespace std
 		return _to_array_impl<R, P, N>(move(a), std::make_index_sequence<N>{});
 	}
 }
+
+#endif
