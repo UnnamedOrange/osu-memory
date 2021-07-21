@@ -7,8 +7,8 @@
 #include <string_view>
 
 #include <osu_memory/reader_base.hpp>
+#include <osu_memory/reader_base_rulesets.hpp>
 #include <osu_memory/to_array.hpp>
-#include <osu_memory/reader_utils_find_base.hpp>
 #include <osu_memory/reader_utils_trace.hpp>
 
 namespace osu_memory
@@ -17,7 +17,7 @@ namespace osu_memory
 	/// hit_perfect, hit_300, hit_200, hit_100, hit_50, hit_miss.
 	/// @NotThreadSafe.
 	/// </summary>
-	class reader_hit : protected reader_base
+	class reader_hit : protected reader_base_rulesets
 	{
 	private:
 		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x60, 0x38 }));
@@ -34,23 +34,6 @@ namespace osu_memory
 			hit_geki = hit_perfect,
 			hit_katsu = hit_200
 		};
-
-	private:
-		uint32_t rulesets{};
-
-	private:
-		virtual void on_reset() override
-		{
-			rulesets = uint32_t{};
-		}
-		virtual bool on_initialize() override
-		{
-			auto base = utils::base_rulesets.find(process);
-			if (!base)
-				return false;
-			rulesets = static_cast<uint32_t>(*base); // osu! is 32-bit.
-			return true;
-		}
 
 	private:
 		std::optional<int32_t> get_hit_any(int32_t last_offset)
