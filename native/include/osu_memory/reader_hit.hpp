@@ -8,6 +8,7 @@
 
 #include <osu_memory/reader_base.hpp>
 #include <osu_memory/to_array.hpp>
+#include <osu_memory/reader_utils_find_base.hpp>
 #include <osu_memory/reader_utils_trace.hpp>
 
 namespace osu_memory
@@ -19,8 +20,6 @@ namespace osu_memory
 	class reader_hit : protected reader_base
 	{
 	private:
-		static constexpr auto sequence = std::to_array<uint8_t>({ 0x7D, 0x15, 0xA1, 000, 000, 000, 000, 0x85, 0xC0 });
-		static constexpr auto mask = std::string_view("xxx????xx");
 		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x60, 0x38 }));
 
 		static constexpr auto last_offsets = std::to_array<int32_t>({ 0x8E, 0x8A, 0x90, 0x88, 0x8C, 0x92 });
@@ -46,7 +45,7 @@ namespace osu_memory
 		}
 		virtual bool on_initialize() override
 		{
-			auto base = process.find(sequence, mask);
+			auto base = utils::base_rulesets.find(process);
 			if (!base)
 				return false;
 			rulesets = static_cast<uint32_t>(*base); // osu! is 32-bit.
