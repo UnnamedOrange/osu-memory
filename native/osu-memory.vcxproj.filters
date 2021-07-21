@@ -51,6 +51,9 @@
     <ClInclude Include="include\osu_memory\to_array.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\reader_utils_find_base.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\osu_memory\dummy.cpp">
