@@ -115,27 +115,29 @@ namespace osu_memory::os
 				if (!VirtualQueryEx(__this->native_handle(), crt_address, &mem_info, sizeof(mem_info)))
 					return std::nullopt;
 
-				if ((mem_info.Protect & PAGE_EXECUTE_READWRITE) && mem_info.State == MEM_COMMIT)
+				do // Not a loop.
 				{
-					// Do matches here.
-					auto region_data = read_memory(mem_info.BaseAddress, mem_info.RegionSize);
-					if (!region_data)
-						continue;
-
-					for (size_t i = 0; i + bin.size() - 1 < (*region_data).size(); i++)
+					if ((mem_info.Protect & PAGE_EXECUTE_READWRITE) && mem_info.State == MEM_COMMIT)
 					{
-						bool ok = true;
-						for (size_t j = 0; j < bin.size(); j++)
-							if (!(mask[j] == '?' || (*region_data)[i + j] == bin[j]))
-							{
-								ok = false;
-								break;
-							}
-						if (ok)
-							return uintptr_t(mem_info.BaseAddress) + i;
-					}
+						// Do matches here.
+						auto region_data = read_memory(mem_info.BaseAddress, mem_info.RegionSize);
+						if (!region_data)
+							continue; // Jump out of do while (false).
 
-				}
+						for (size_t i = 0; i + bin.size() - 1 < (*region_data).size(); i++)
+						{
+							bool ok = true;
+							for (size_t j = 0; j < bin.size(); j++)
+								if (!(mask[j] == '?' || (*region_data)[i + j] == bin[j]))
+								{
+									ok = false;
+									break;
+								}
+							if (ok)
+								return uintptr_t(mem_info.BaseAddress) + i;
+						}
+					}
+				} while (false);
 				crt_address = PVOID(uintptr_t(crt_address) + mem_info.RegionSize);
 			}
 			return std::nullopt;
