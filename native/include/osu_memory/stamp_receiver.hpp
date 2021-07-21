@@ -40,8 +40,9 @@ namespace osu_memory::utils
 		bool update()
 		{
 			stamp_base_t crt_stamp = get_stamp();
+			bool ret = crt != crt_stamp;
 			crt = crt_stamp;
-			return crt != crt_stamp;
+			return ret;
 		}
 	};
 }
