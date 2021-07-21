@@ -39,7 +39,7 @@ namespace osu_memory::os
 			static_assert(std::is_integral_v<preferred_size_t> && std::is_unsigned_v<preferred_size_t>,
 				"preferred_size_t should be unsigned integer.");
 
-			const T* __this = reinterpret_cast<const T*>(this);
+			const T* __this = dynamic_cast<const T*>(this);
 			if (__this->empty())
 				return std::nullopt;
 
@@ -95,7 +95,7 @@ namespace osu_memory::os
 			if (bin.size() != mask.size())
 				throw std::invalid_argument("Sizes of bin and mask must be the same.");
 
-			const T* __this = reinterpret_cast<const T*>(this);
+			const T* __this = dynamic_cast<const T*>(this);
 			if (__this->empty())
 				return std::nullopt;
 
