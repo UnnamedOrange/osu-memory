@@ -10,7 +10,20 @@ To rediscover my childhood.
 
 ## Use
 
+```cpp
+#include <osu_memory/osu_memory.h>
 
+osu_memory::reader r;
+r.get_hit_miss();
+r.get_hit_50();
+r.get_hit_100();
+r.get_hit_200();
+r.get_hit_300();
+r.get_hit_perfect();
+r.get_hit_geki();
+r.get_hit_katsu();
+r.get_mania_keys();
+```
 
 ## License
 
