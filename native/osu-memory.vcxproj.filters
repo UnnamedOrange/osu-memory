@@ -42,6 +42,9 @@
     <ClInclude Include="include\osu_memory\reader_base.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\reader_hit.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="include\osu_memory\reader_utils_trace.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
