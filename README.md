@@ -38,8 +38,67 @@ See the [LICENSE](./LICENSE) file in the repository root for full license text.
 
 ## Special Thanks
 
-- [l3lackShark](https://github.com/l3lackShark) and his [gosumemory](https://github.com/l3lackShark/gosumemory) for most of the memory signatures.
+- [l3lackShark](https://github.com/l3lackShark) and his [gosumemory](https://github.com/l3lackShark/gosumemory) for the memory signatures below.
+
+  - In `reader_utils_find_base.hpp`:
+
+    ```cpp
+    inline constexpr find_base base_rulesets{
+    	std::to_array<uint8_t>({ 0x7D, 0x15, 0xA1, 000, 000, 000, 000, 0x85, 0xC0 }),
+    	"xxx????xx"
+    };
+    ```
+
+  - In `reader_hit.hpp`:
+
+    ```cpp
+    static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x60, 0x38 }));
+
+    static constexpr auto last_offsets = std::to_array<int32_t>({ 0x8E, 0x8A, 0x90, 0x88, 0x8C, 0x92 });
+    ```
+
+  - In `reader_mod.hpp`:
+
+    ```cpp
+    static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x60, 0x38, 0x1C }));
+    static constexpr int32_t last_offset = 0x8;
+    ```
+
+  And for the enumeration below.
+
+  - In `reader_mod.hpp`:
+
+    ```cpp
+    enum class mod_t : uint32_t { /*...*/ };
+    ```
+
 - [Piotrekol](https://github.com/Piotrekol/) and his [ProcessMemoryDataFinder](https://github.com/Piotrekol/ProcessMemoryDataFinder) for technical support.
+
+- [OsuSync](https://github.com/OsuSync) and their [OsuRTDataProvider](https://github.com/OsuSync/OsuRTDataProvider) for the memory signatures below.
+
+  - In `reader_utils_find_base.hpp`:
+
+    ```cpp
+    inline constexpr find_base base_status{
+    	std::to_array<uint8_t>({ 0x75, 0x07, 0x8B, 0x45, 0x90, 0xC6, 0x40, 0x2A, 0x00, 0x83, 0x3D, 000, 000, 000, 000, 0x0F }),
+    	"xxxxxxxxxxx????x"
+    };
+    ```
+
+  - In `reader_status.hpp`:
+
+    ```cpp
+    static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ 0xB }));
+    static constexpr auto last_offsets = std::to_array<int32_t>({ 0x0, 0x4 });
+    ```
+
+  And for the enumeration below.
+
+  - In `reader_status.hpp`:
+
+    ```cpp
+    enum class status_t : uint32_t { /*...*/ };
+    ```
 
 ## Credits
 
