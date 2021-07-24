@@ -28,6 +28,7 @@
     <ClInclude Include="include\osu_memory\reader_base_rulesets.hpp" />
     <ClInclude Include="include\osu_memory\reader_hit.hpp" />
     <ClInclude Include="include\osu_memory\reader_mania_keys.hpp" />
+    <ClInclude Include="include\osu_memory\reader_mod.hpp" />
     <ClInclude Include="include\osu_memory\reader_utils_find_base.hpp" />
     <ClInclude Include="include\osu_memory\reader_utils_trace.hpp" />
     <ClInclude Include="include\osu_memory\singleton.hpp" />

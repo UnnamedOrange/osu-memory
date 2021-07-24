@@ -23,6 +23,8 @@ r.get_hit_perfect();
 r.get_hit_geki();
 r.get_hit_katsu();
 r.get_mania_keys();
+r.get_mod();
+if (*(r.get_mod()) & mod_t::no_fail);
 ```
 
 ## License
