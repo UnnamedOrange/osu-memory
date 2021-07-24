@@ -99,6 +99,44 @@ int main(int argn, char** argv)
 				__mod_test(mirror);
 #undef __mod_test
 			}
+			{
+				auto [t1, t2] = std::tuple{ r.get_status(), r.get_previous_status() };
+				if (t1 && t2)
+				{
+#define __status_test(t, status) else if (*t == status_t::status) std::cout << #status << std::endl
+#define __status_wrapper(t)									    \
+					if (false) {}							    \
+					__status_test(t, menu);					    \
+					__status_test(t, edit);					    \
+					__status_test(t, play);					    \
+					__status_test(t, exit);					    \
+					__status_test(t, select_edit);			    \
+					__status_test(t, select_play);			    \
+					__status_test(t, select_drawings);		    \
+					__status_test(t, rank);					    \
+					__status_test(t, update);				    \
+					__status_test(t, busy);					    \
+					__status_test(t, unknown);				    \
+					__status_test(t, lobby);				    \
+					__status_test(t, match_setup);			    \
+					__status_test(t, select_multi);			    \
+					__status_test(t, ranking_vs);			    \
+					__status_test(t, online_selection);		    \
+					__status_test(t, options_offset_wizard);    \
+					__status_test(t, ranking_tag_coop);		    \
+					__status_test(t, ranking_team);			    \
+					__status_test(t, beatmap_import);		    \
+					__status_test(t, package_updater);		    \
+					__status_test(t, benchmark);			    \
+					__status_test(t, tourney);				    \
+					__status_test(t, charts)						 
+
+					__status_wrapper(t1);
+					__status_wrapper(t2);
+#undef __status_wrapper
+#undef __status_test
+				}
+			}
 		}
 	}
 }
