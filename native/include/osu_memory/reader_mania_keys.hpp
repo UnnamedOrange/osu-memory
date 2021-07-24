@@ -20,7 +20,7 @@ namespace osu_memory
 	class reader_mania_keys : protected reader_base_rulesets
 	{
 	private:
-		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0xC8, 0x94, 0x4, 0x44, 0x4 }));
+		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0xC8, 0x94, 0x4, 0x44 }));
 
 	public:
 		/// <summary>
@@ -31,16 +31,22 @@ namespace osu_memory
 			if (!call_before())
 				return std::nullopt;
 
-			auto opt_array_base = offsets.from(process, rulesets);
-			if (!opt_array_base)
+			auto optional_array_base = offsets.from(process, rulesets);
+			if (!optional_array_base)
 				return std::nullopt;
-			auto array_base = *opt_array_base;
+			auto array_base = *optional_array_base;
 
-			auto key_capacity = process.read_memory<uint32_t>(array_base + 4);
-			if (!key_capacity || !*key_capacity || *key_capacity > 32u)
+			auto key_size = process.read_memory<uint32_t>(array_base + 0xC);
+			if (!key_size || !*key_size || *key_size > 20u)
 				return std::nullopt;
+
+			optional_array_base = process.read_memory<uint32_t>(array_base + 0x4);
+			if (!optional_array_base)
+				return std::nullopt;
+			array_base = *optional_array_base;
+
 			std::vector<std::pair<int, bool>> ret;
-			for (size_t i = 0; i < *key_capacity; i++)
+			for (size_t i = 0; i < *key_size; i++)
 			{
 				auto key_base_addr = process.read_memory<uint32_t>(array_base + 8 + i * 4);
 				if (!key_base_addr || !*key_base_addr)
