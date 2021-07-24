@@ -17,7 +17,7 @@ namespace osu_memory
 	{
 		no_fail = 0x1,
 		easy = 0x2,
-
+		touch_device = 0x4,
 		hidden = 0x8,
 		hard_rock = 0x10,
 		sudden_death = 0x20,
@@ -30,20 +30,20 @@ namespace osu_memory
 		spun_out = 0x1000,
 		auto_pilot = 0x2000,
 		perfect = 0x4000, // Always with sudden_death.
-		mania_4k = 0x8000,
-		mania_5k = 0x10000,
-		mania_6k = 0x20000,
-		mania_7k = 0x40000,
-		mania_8k = 0x80000,
+		key4 = 0x8000,
+		key5 = 0x10000,
+		key6 = 0x20000,
+		key7 = 0x40000,
+		key8 = 0x80000,
 		fade_in = 0x100000,
 		random = 0x200000,
 		cinema = 0x400000, // Always with auto_play.
-
-		mania_9k = 0x1000000,
+		target_practice = 0x800000,
+		key9 = 0x1000000,
 		co_op = 0x2000000,
-		mania_1k = 0x4000000,
-		mania_3k = 0x8000000,
-		mania_2k = 0x10000000,
+		key1 = 0x4000000,
+		key3 = 0x8000000,
+		key2 = 0x10000000,
 		score_v2 = 0x20000000,
 		mirror = 0x40000000,
 	};

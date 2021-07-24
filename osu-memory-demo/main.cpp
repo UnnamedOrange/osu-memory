@@ -68,6 +68,7 @@ int main(int argn, char** argv)
 #define __mod_test(mod) if (*t & mod_t::mod) std::cout << #mod << std::endl
 				__mod_test(no_fail);
 				__mod_test(easy);
+				__mod_test(touch_device);
 				__mod_test(hidden);
 				__mod_test(hard_rock);
 				__mod_test(sudden_death);
@@ -80,19 +81,20 @@ int main(int argn, char** argv)
 				__mod_test(spun_out);
 				__mod_test(auto_pilot);
 				__mod_test(perfect);
-				__mod_test(mania_4k);
-				__mod_test(mania_5k);
-				__mod_test(mania_6k);
-				__mod_test(mania_7k);
-				__mod_test(mania_8k);
+				__mod_test(key4);
+				__mod_test(key5);
+				__mod_test(key6);
+				__mod_test(key7);
+				__mod_test(key8);
 				__mod_test(fade_in);
 				__mod_test(random);
 				__mod_test(cinema);
-				__mod_test(mania_9k);
+				__mod_test(target_practice);
+				__mod_test(key9);
 				__mod_test(co_op);
-				__mod_test(mania_1k);
-				__mod_test(mania_3k);
-				__mod_test(mania_2k);
+				__mod_test(key1);
+				__mod_test(key3);
+				__mod_test(key2);
 				__mod_test(score_v2);
 				__mod_test(mirror);
 #undef __mod_test
