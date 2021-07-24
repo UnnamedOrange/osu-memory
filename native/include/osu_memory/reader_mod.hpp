@@ -74,7 +74,7 @@ namespace osu_memory
 			auto addr_last = offsets.from(process, rulesets);
 			if (!addr_last)
 				return std::nullopt;
-			auto mod_2 = process.read_memory<int64_t>(*addr_last + last_offset);
+			auto mod_2 = process.read_memory<uint64_t>(*addr_last + last_offset);
 			if (!mod_2)
 				return std::nullopt;
 			return static_cast<mod_t>(static_cast<uint32_t>(*mod_2) ^ static_cast<uint32_t>((*mod_2) >> 32));
