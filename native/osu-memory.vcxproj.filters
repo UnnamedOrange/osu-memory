@@ -72,6 +72,9 @@
     <ClInclude Include="include\osu_memory\reader_status.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\osu_memory\reader_utils_base_impl.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\osu_memory\dummy.cpp">

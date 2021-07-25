@@ -3,32 +3,18 @@
 
 #pragma once
 
-#include <osu_memory/reader_base.hpp>
 #include <osu_memory/reader_utils_find_base.hpp>
+#include <osu_memory/reader_utils_base_impl.hpp>
 
 namespace osu_memory
 {
-	class reader_base_status : public reader_base
+	class base_status_container
 	{
-	protected:
-		uint32_t status_base{};
-
-	private:
-		virtual void on_reset() override
-		{
-			status_base = uint32_t{};
-		}
-		virtual bool on_initialize() override
-		{
-			auto base = utils::base_status.find(process);
-			if (!base)
-				return false;
-			status_base = static_cast<uint32_t>(*base);
-			return true;
-		}
-
 	public:
-		using reader_base::reader_base;
-		using reader_base::operator=;
+		static constexpr utils::find_base base{
+			std::to_array<uint8_t>({ 0x75, 0x07, 0x8B, 0x45, 0x90, 0xC6, 0x40, 0x2A, 0x00, 0x83, 0x3D, 000, 000, 000, 000, 0x0F }),
+			"xxxxxxxxxxx????x"
+		};
 	};
+	using reader_base_status = reader_utils_base_impl<base_status_container>;
 }

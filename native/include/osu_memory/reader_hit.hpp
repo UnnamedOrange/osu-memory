@@ -40,7 +40,7 @@ namespace osu_memory
 		{
 			if (!call_before())
 				return std::nullopt;
-			auto addr_last = offsets.from(process, rulesets);
+			auto addr_last = offsets.from(process, static_base);
 			if (!addr_last)
 				return std::nullopt;
 			return process.read_memory<int16_t>(*addr_last + last_offset);

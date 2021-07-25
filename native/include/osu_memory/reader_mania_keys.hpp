@@ -31,7 +31,7 @@ namespace osu_memory
 			if (!call_before())
 				return std::nullopt;
 
-			auto optional_array_base = offsets.from(process, rulesets);
+			auto optional_array_base = offsets.from(process, static_base);
 			if (!optional_array_base)
 				return std::nullopt;
 			auto array_base = *optional_array_base;

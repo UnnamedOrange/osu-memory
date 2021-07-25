@@ -40,10 +40,10 @@ See the [LICENSE](./LICENSE) file in the repository root for full license text.
 
 - [l3lackShark](https://github.com/l3lackShark) and his [gosumemory](https://github.com/l3lackShark/gosumemory) for the memory signatures below.
 
-  - In `reader_utils_find_base.hpp`:
+  - In `reader_base_rulesets.hpp`:
 
     ```cpp
-    inline constexpr find_base base_rulesets{
+    static constexpr find_base base_rulesets{
     	std::to_array<uint8_t>({ 0x7D, 0x15, 0xA1, 000, 000, 000, 000, 0x85, 0xC0 }),
     	"xxx????xx"
     };
@@ -76,10 +76,10 @@ See the [LICENSE](./LICENSE) file in the repository root for full license text.
 
 - [OsuSync](https://github.com/OsuSync) and their [OsuRTDataProvider](https://github.com/OsuSync/OsuRTDataProvider) for the memory signatures below.
 
-  - In `reader_utils_find_base.hpp`:
+  - In `reader_base_status.hpp`:
 
     ```cpp
-    inline constexpr find_base base_status{
+    static constexpr find_base base_status{
     	std::to_array<uint8_t>({ 0x75, 0x07, 0x8B, 0x45, 0x90, 0xC6, 0x40, 0x2A, 0x00, 0x83, 0x3D, 000, 000, 000, 000, 0x0F }),
     	"xxxxxxxxxxx????x"
     };

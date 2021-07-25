@@ -33,13 +33,4 @@ namespace osu_memory::utils
 
 	template <typename array_t>
 	find_base(array_t, std::string_view)->find_base<std::decay_t<array_t>>;
-
-	inline constexpr find_base base_rulesets{
-		std::to_array<uint8_t>({ 0x7D, 0x15, 0xA1, 000, 000, 000, 000, 0x85, 0xC0 }),
-		"xxx????xx"
-	};
-	inline constexpr find_base base_status{
-		std::to_array<uint8_t>({ 0x75, 0x07, 0x8B, 0x45, 0x90, 0xC6, 0x40, 0x2A, 0x00, 0x83, 0x3D, 000, 000, 000, 000, 0x0F }),
-		"xxxxxxxxxxx????x"
-	};
 }
