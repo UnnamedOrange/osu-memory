@@ -6,6 +6,7 @@
 #include <osu_memory/reader_hit.hpp>
 #include <osu_memory/reader_mod.hpp>
 #include <osu_memory/reader_status.hpp>
+#include <osu_memory/reader_autoplay.hpp>
 #include <osu_memory/reader_mania_keys.hpp>
 
 namespace osu_memory
@@ -17,6 +18,7 @@ namespace osu_memory
 		public reader_hit,
 		public reader_mod,
 		public reader_status,
+		public reader_autoplay,
 		public reader_mania_keys
 	{};
 }

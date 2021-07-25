@@ -138,5 +138,12 @@ int main(int argn, char** argv)
 				}
 			}
 		}
+		{
+			auto t = r.get_is_autoplay();
+			if (t)
+			{
+				std::cout << "is_autoplay: " << (*t ? "true" : "false") << std::endl;
+			}
+		}
 	}
 }

@@ -28,6 +28,7 @@ if (*(r.get_mod()) & mod_t::no_fail);
 r.get_status();
 r.get_previous_status();
 if (*(r.get_status()) == status_t::menu);
+r.get_is_autoplay();
 ```
 
 ## License
