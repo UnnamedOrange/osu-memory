@@ -44,17 +44,18 @@ namespace osu_memory
 			if (!optional_array_base)
 				return std::nullopt;
 			array_base = *optional_array_base;
+			auto optional_key_base_addrs = process.read_memory(array_base + 8, *key_size * sizeof(uint32_t));
+			if (!optional_key_base_addrs)
+				return std::nullopt;
+			const uint32_t* key_base_addrs = reinterpret_cast<const uint32_t*>((*optional_key_base_addrs).data());
 
 			std::vector<std::pair<int, bool>> ret;
 			for (size_t i = 0; i < *key_size; i++)
 			{
-				auto key_base_addr = process.read_memory<uint32_t>(array_base + 8 + i * 4);
-				if (!key_base_addr || !*key_base_addr)
-					break;
-				auto key_code = process.read_memory<int32_t>(*key_base_addr + 0x30);
+				auto key_code = process.read_memory<int32_t>(key_base_addrs[i] + 0x30);
 				if (!key_code)
 					return std::nullopt;
-				auto is_key_down = process.read_memory<uint8_t>(*key_base_addr + 0x3B);
+				auto is_key_down = process.read_memory<uint8_t>(key_base_addrs[i] + 0x3B);
 				if (!is_key_down)
 					return std::nullopt;
 				ret.emplace_back(*key_code, *is_key_down);
