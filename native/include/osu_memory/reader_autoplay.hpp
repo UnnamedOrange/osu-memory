@@ -21,7 +21,7 @@ namespace osu_memory
 	{
 	private:
 		// static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x0, 0x2C, 0x18, 0x20 }));
-		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x40, 0x0, 0x30, 0xC, 0x11C }));
+		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x48, 0x0, 0x30, 0xC, 0x11C }));
 		static constexpr int32_t last_offset = 0;
 
 	public:

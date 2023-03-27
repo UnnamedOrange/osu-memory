@@ -20,7 +20,7 @@ namespace osu_memory
 	class reader_mania_keys : protected reader_base_rulesets
 	{
 	private:
-		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0xC8, 0x94, 0x4, 0x44 }));
+		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0xD0, 0x94, 0x4, 0x44 }));
 
 	public:
 		/// <summary>
