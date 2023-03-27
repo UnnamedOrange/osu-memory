@@ -63,7 +63,7 @@ namespace osu_memory
 	class reader_mod : protected reader_base_rulesets
 	{
 	private:
-		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x60, 0x38, 0x1C }));
+		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x68, 0x38, 0x1C }));
 		static constexpr int32_t last_offset = 0x8;
 
 	public:

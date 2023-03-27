@@ -20,7 +20,7 @@ namespace osu_memory
 	class reader_hit : protected reader_base_rulesets
 	{
 	private:
-		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x60, 0x38 }));
+		static constexpr auto offsets = utils::trace(std::to_array<int32_t>({ -0xB, 0x4, 0x68, 0x38 }));
 
 		static constexpr auto last_offsets = std::to_array<int32_t>({ 0x8E, 0x8A, 0x90, 0x88, 0x8C, 0x92 });
 		enum class hit_t
